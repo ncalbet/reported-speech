@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reported Speech · Part 2 – The Manhattan Affair · 4t ESO</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f0e8;--surface:#ffffff;--s2:#faf7f2;--s3:#f0ebe0;
+  --border:#ddd5c0;--border2:#ccc0a0;--text:#1a1208;--muted:#6b5a3e;
+  --gold:#92660a;--gold-bg:rgba(146,102,10,.07);--gold-border:rgba(146,102,10,.25);
+  --red:#8b1a1a;--red-bg:rgba(139,26,26,.07);--red-border:rgba(139,26,26,.25);
+  --teal:#0e6b6b;--teal-bg:rgba(14,107,107,.07);--teal-border:rgba(14,107,107,.25);
+  --purple:#5e2a8e;--purple-bg:rgba(94,42,142,.07);--purple-border:rgba(94,42,142,.25);
+  --green:#1a5c2e;--green-bg:rgba(26,92,46,.07);--green-border:rgba(26,92,46,.25);
+  --ok:#166534;--err:#991b1b;--err-bg:rgba(153,27,27,.07);--err-border:rgba(153,27,27,.22);
+  --r:8px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;background:var(--bg)}
+body{color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px}
+.deck{width:100vw;height:100vh;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .35s ease,transform .35s ease;transform:translateX(36px)}
+.slide.active{opacity:1;pointer-events:all;transform:translateX(0)}
+.slide.exit-left{transform:translateX(-36px);opacity:0}
+.topbar{flex-shrink:0;background:var(--surface);border-bottom:2px solid var(--border);padding:.45rem 1.4rem;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 6px rgba(0,0,0,.07);z-index:20;position:relative}
+.tb-logo{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:.06em;background:linear-gradient(135deg,var(--gold),#b37a0c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.tb-center{font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+.tb-right{display:flex;align-items:center;gap:.75rem}
+.tb-counter{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.06em;color:var(--muted)}
+.tb-counter span{color:var(--gold)}
+.tb-slide-name{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);background:var(--s2);border:1px solid var(--border);border-radius:4px;padding:.15rem .5rem}
+.slide-content{flex:1;overflow:hidden;padding:.75rem 1.6rem .5rem;display:flex;flex-direction:column}
+.navbar{flex-shrink:0;background:var(--surface);border-top:2px solid var(--border);padding:.45rem 1.4rem;display:flex;align-items:center;justify-content:space-between;box-shadow:0 -1px 6px rgba(0,0,0,.04);z-index:20}
+.nav-dots{display:flex;gap:.35rem;align-items:center}
+.nav-dot{width:6px;height:6px;border-radius:50%;background:var(--border2);cursor:pointer;transition:all .2s}
+.nav-dot.active{background:var(--gold);width:18px;border-radius:3px}
+.nav-dot:hover:not(.active){background:var(--muted)}
+.btn-nav{background:var(--s2);border:1px solid var(--border2);border-radius:6px;color:var(--text);padding:.42rem 1.1rem;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.78rem;cursor:pointer;transition:all .15s}
+.btn-nav:hover:not(:disabled){border-color:var(--gold);color:var(--gold);background:#fff}
+.btn-nav:disabled{opacity:.3;cursor:default}
+.btn-nav-primary{background:linear-gradient(135deg,var(--gold),#b37a0c);color:#fff;border:none;border-radius:6px;padding:.42rem 1.25rem;font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:.07em;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.btn-nav-primary:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(146,102,10,.35)}
+.slide-kicker{font-size:.75rem;text-transform:uppercase;letter-spacing:.18em;font-weight:700;margin-bottom:.2rem}
+.slide-kicker.gold{color:var(--gold)}.slide-kicker.red{color:var(--red)}.slide-kicker.teal{color:var(--teal)}.slide-kicker.err{color:var(--err)}.slide-kicker.green{color:var(--green)}.slide-kicker.purple{color:var(--purple)}
+.slide-title{font-family:'Bebas Neue',sans-serif;font-size:2.25rem;letter-spacing:.04em;line-height:1;margin-bottom:.25rem}
+.slide-title .gold{color:var(--gold)}.slide-title .red{color:var(--red)}.slide-title .teal{color:var(--teal)}.slide-title .err{color:var(--err)}.slide-title .green{color:var(--green)}
+.slide-sub{color:var(--muted);font-size:.88rem;line-height:1.5;margin-bottom:.42rem}
+.slide-sub b{color:var(--text)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;flex:1}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;flex:1}
+.grid4{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;flex:1}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:.6rem .85rem;display:flex;flex-direction:column;gap:.18rem}
+.card.gold{border-color:var(--gold-border);background:var(--gold-bg)}
+.card.red{border-color:var(--red-border);background:var(--red-bg)}
+.card.teal{border-color:var(--teal-border);background:var(--teal-bg)}
+.card.purple{border-color:var(--purple-border);background:var(--purple-bg)}
+.card.green{border-color:var(--green-border);background:var(--green-bg)}
+.c-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em}
+.c-label.gold{color:var(--gold)}.c-label.red{color:var(--red)}.c-label.teal{color:var(--teal)}.c-label.purple{color:var(--purple)}.c-label.green{color:var(--green)}.c-label.err{color:var(--err)}
+.formula{background:var(--s2);border-left:3px solid var(--gold);border-radius:0 6px 6px 0;padding:.42rem .9rem;margin:.25rem 0;font-size:.88rem;line-height:1.6}
+.formula.teal{border-left-color:var(--teal)}.formula.red{border-left-color:var(--red)}.formula.green{border-left-color:var(--green)}.formula.purple{border-left-color:var(--purple)}
+.formula .kw{font-weight:700;color:var(--gold)}.formula .kw.teal{color:var(--teal)}.formula .kw.red{color:var(--red)}.formula .kw.purple{color:var(--purple)}.formula .kw.green{color:var(--green)}
+.ex-err{background:#fff;border-left:3px solid var(--err);border-radius:0 5px 5px 0;padding:.3rem .7rem;font-size:.88rem;color:var(--err);line-height:1.5;margin:.1rem 0}
+.ex-ok{background:#fff;border-left:3px solid var(--ok);border-radius:0 5px 5px 0;padding:.3rem .7rem;font-size:.88rem;color:#166534;line-height:1.5;margin:.1rem 0}
+.ex-note{background:var(--s2);border-left:3px solid var(--gold);border-radius:0 5px 5px 0;padding:.3rem .7rem;font-size:.86rem;color:var(--text);line-height:1.5;margin:.1rem 0}
+.tag{display:inline-block;padding:.1rem .45rem;border-radius:4px;font-size:.68rem;font-weight:700}
+.tag.gold{background:rgba(146,102,10,.12);color:var(--gold);border:1px solid rgba(146,102,10,.28)}
+.tag.teal{background:rgba(14,107,107,.12);color:var(--teal);border:1px solid rgba(14,107,107,.28)}
+.tag.red{background:rgba(139,26,26,.12);color:var(--red);border:1px solid rgba(139,26,26,.28)}
+.tag.purple{background:rgba(94,42,142,.12);color:var(--purple);border:1px solid rgba(94,42,142,.28)}
+.tag.green{background:rgba(26,92,46,.12);color:var(--green);border:1px solid rgba(26,92,46,.28)}
+/* Intro */
+.intro-body{flex:1;display:flex;flex-direction:column;gap:.55rem;justify-content:center}
+.intro-badge{display:inline-flex;align-items:center;gap:.4rem;background:var(--red-bg);border:1px solid var(--red-border);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:700;color:var(--red);letter-spacing:.05em;width:fit-content}
+.intro-title{font-family:'Bebas Neue',sans-serif;font-size:3.2rem;letter-spacing:.03em;line-height:.95}
+.intro-title .l1{display:block;color:var(--red)}.intro-title .l2{display:block;color:var(--gold)}
+.intro-desc{color:var(--muted);font-size:.89rem;line-height:1.55;max-width:640px}
+.intro-desc b{color:var(--text)}
+.intro-chips{display:grid;grid-template-columns:repeat(4,1fr);gap:.45rem}
+.i-chip{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);padding:.45rem .7rem}
+.i-chip .ic-n{font-weight:700;font-size:.84rem;color:var(--text)}
+.i-chip .ic-d{color:var(--muted);font-size:.72rem;margin-top:.06rem}
+.intro-row{display:grid;grid-template-columns:1fr 1fr;gap:.45rem}
+.intro-block{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:.5rem .85rem}
+.ib-text{font-size:.85rem;color:var(--muted);line-height:1.45}
+.ib-text b{color:var(--text)}
+/* Errors */
+.err-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;flex:1}
+.err-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:.6rem .85rem;display:flex;flex-direction:column;gap:.25rem}
+.err-num{font-family:'Bebas Neue',sans-serif;font-size:.85rem;color:var(--err);letter-spacing:.06em;background:var(--err-bg);border:1px solid var(--err-border);padding:.08rem .4rem;border-radius:4px;width:fit-content}
+.err-rule{font-size:.81rem;font-weight:700;color:var(--text);margin-bottom:.06rem}
+.err-explain{font-size:.79rem;color:var(--muted);line-height:1.45;margin-top:.1rem}
+.err-explain b{color:var(--text)}
+.err-reveal{animation:revealIn .25s ease}
+@keyframes revealIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.btn-reveal{margin-top:auto;align-self:flex-start;background:var(--s2);border:1px solid var(--border2);border-radius:6px;color:var(--gold);font-size:.75rem;font-weight:700;font-family:'DM Sans',sans-serif;padding:.26rem .72rem;cursor:pointer;transition:all .15s}
+.btn-reveal:hover{background:var(--gold-bg);border-color:var(--gold)}
+.btn-reveal.done{color:var(--ok);border-color:rgba(22,163,74,.3);background:rgba(22,163,74,.07);cursor:default}
+/* Quiz */
+.quiz-wrap{flex:1;display:flex;flex-direction:column;gap:.5rem;max-width:680px}
+.quiz-top{display:flex;align-items:center;gap:1rem}
+.qprog{display:flex;gap:.25rem;flex:1}
+.qpd{flex:1;height:4px;border-radius:2px;background:var(--border);transition:background .25s}
+.qpd.done{background:var(--ok)}.qpd.current{background:var(--gold)}
+.qscore{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.06em;color:var(--gold);white-space:nowrap}
+.qcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;animation:qIn .3s ease;flex:1;display:flex;flex-direction:column}
+@keyframes qIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.qcard-hdr{padding:.48rem .9rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.55rem;background:var(--s2)}
+.qcard-num{font-family:'Bebas Neue',sans-serif;font-size:.8rem;letter-spacing:.08em;color:var(--gold)}
+.qcard-body{padding:.7rem .9rem;flex:1;display:flex;flex-direction:column;gap:.48rem}
+.qcard-q{font-size:.93rem;font-weight:600;line-height:1.5;color:var(--text)}
+.qcard-q .blank{display:inline-block;border-bottom:2px solid var(--gold);min-width:80px;text-align:center;color:var(--gold);font-weight:700;padding:0 .25rem}
+.qopts{display:grid;grid-template-columns:1fr 1fr;gap:.35rem}
+.qopt{display:flex;align-items:center;gap:.5rem;padding:.4rem .7rem;border-radius:6px;border:1px solid var(--border);cursor:pointer;transition:all .15s;font-size:.85rem;background:var(--s2);color:var(--text)}
+.qopt:hover:not(.locked){border-color:var(--gold);background:var(--gold-bg);color:var(--gold)}
+.qopt .ql{font-family:'Bebas Neue',sans-serif;font-size:.9rem;color:var(--muted);width:18px;flex-shrink:0}
+.qopt.correct{border-color:var(--ok)!important;background:rgba(22,163,74,.1)!important;color:#166534!important}
+.qopt.correct .ql{color:var(--ok)}
+.qopt.wrong{border-color:var(--err)!important;background:rgba(153,27,27,.08)!important;color:var(--err)!important}
+.qopt.wrong .ql{color:var(--err)}
+.qopt.reveal{border-color:rgba(22,163,74,.4);background:rgba(22,163,74,.06)}
+.qopt.locked{cursor:default}
+.qfb{display:none;border-radius:6px;padding:.45rem .72rem;font-size:.82rem;line-height:1.5}
+.qfb.show{display:block}
+.qfb.good{background:rgba(22,163,74,.1);border:1px solid rgba(22,163,74,.25);color:#166534}
+.qfb.bad{background:rgba(153,27,27,.07);border:1px solid rgba(153,27,27,.25);color:var(--err)}
+.qfb b{color:var(--text)}
+.quiz-nav-btns{display:flex;gap:.5rem}
+.btn-qnext{background:linear-gradient(135deg,var(--gold),#b37a0c);color:#fff;border:none;border-radius:6px;padding:.38rem 1.1rem;font-family:'Bebas Neue',sans-serif;font-size:.88rem;letter-spacing:.06em;cursor:pointer;display:none;transition:transform .15s}
+.btn-qnext.show{display:block}.btn-qnext:hover{transform:translateY(-1px)}
+.btn-retry-q{background:var(--s2);border:1px solid var(--border2);border-radius:6px;color:var(--muted);padding:.38rem .9rem;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.77rem;cursor:pointer;display:none;transition:all .15s}
+.btn-retry-q.show{display:block}.btn-retry-q:hover{border-color:var(--gold);color:var(--gold)}
+.quiz-result{display:none;background:linear-gradient(135deg,var(--gold-bg),var(--red-bg));border:1px solid var(--gold-border);border-radius:var(--r);padding:1.2rem;text-align:center;animation:qIn .4s ease;flex:1;align-items:center;justify-content:center;flex-direction:column;gap:.5rem}
+.quiz-result.show{display:flex}
+.qr-icon{font-size:2.5rem}.qr-title{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--gold);letter-spacing:.04em}
+.qr-score{font-size:.88rem;color:var(--muted)}.qr-score b{color:var(--text);font-size:1rem}
+.btn-full-retry{background:linear-gradient(135deg,var(--gold),#b37a0c);color:#fff;border:none;border-radius:6px;padding:.55rem 1.4rem;font-family:'Bebas Neue',sans-serif;font-size:.92rem;letter-spacing:.07em;cursor:pointer;margin-top:.3rem}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- ══ SLIDE 1 — INTRO / RECAP ══ -->
+<div class="slide active" data-slide="1">
+  <div class="topbar">
+    <div class="tb-logo">🔍 The Manhattan Affair</div>
+    <div class="tb-center">Reported Speech · Part 2 · 4t ESO</div>
+    <div class="tb-right"><div class="tb-slide-name">Introduction</div><div class="tb-counter"><span>1</span> / 7</div></div>
+  </div>
+  <div class="slide-content">
+    <div class="intro-body">
+      <div class="intro-badge">📋 Part 2 · Missions 3 &amp; 4 · The Velvet Room</div>
+      <div class="intro-title"><span class="l1">REPORTED SPEECH</span><span class="l2">PART 2</span></div>
+      <div class="intro-desc">The investigation deepens. You know the basics — now you need to report <b>commands</b> ("Leave the room!"), <b>requests</b> ("Please tell me the truth.") and <b>questions</b> ("Where is Eleanor?"). Plus four more essential reporting verbs.</div>
+      <div class="intro-chips">
+        <div class="i-chip">
+          <div class="ic-n">✅ Part 1 recap</div>
+          <div class="ic-d">said/told · backshift · pronouns/time · claim/deny/admit/insist</div>
+        </div>
+        <div class="i-chip">
+          <div class="ic-n">🆕 More verbs</div>
+          <div class="ic-d">suggest · warn · accuse · explain</div>
+        </div>
+        <div class="i-chip">
+          <div class="ic-n">🆕 Commands</div>
+          <div class="ic-d">told/ordered/asked + obj + (not) to + inf.</div>
+        </div>
+        <div class="i-chip">
+          <div class="ic-n">🆕 Questions</div>
+          <div class="ic-d">if/whether · wh-words · word order!</div>
+        </div>
+      </div>
+      <div class="intro-row">
+        <div class="intro-block"><div class="ib-text"><b>Reported commands</b> never use "don't" or the imperative. You always need: verb + person + <b>(not) to</b> + infinitive.<br><em>"Don't leave!" → He told her <b>not to leave</b>.</em></div></div>
+        <div class="intro-block"><div class="ib-text"><b>Reported questions</b> are the trickiest part: word order changes to normal (subject + verb), tense backshifts, and there is <b>no question mark</b> at the end.<br><em>"Where is she?" → He asked where she <b>was</b>.</em></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="navbar">
+    <button class="btn-nav" onclick="prev()" disabled>← Back</button>
+    <div class="nav-dots" id="nd1"></div>
+    <button class="btn-nav-primary" onclick="next()">Next →</button>
+  </div>
+</div>
+
+<!-- ══ SLIDE 2 — MORE REPORTING VERBS ══ -->
+<div class="slide" data-slide="2">
+  <div class="topbar">
+    <div class="tb-logo">🔍 The Manhattan Affair</div>
+    <div class="tb-center">Reported Speech · Part 2 · 4t ESO</div>
+    <div class="tb-right"><div class="tb-slide-name">More Verbs</div><div class="tb-counter"><span>2</span> / 7</div></div>
+  </div>
+  <div class="slide-content">
+    <div class="slide-kicker gold">Step 1</div>
+    <div class="slide-title">More Reporting Verbs — <span class="gold">suggest, warn, accuse, explain</span></div>
+    <div class="slide-sub">Four more verbs for your detective's notebook — each with its own pattern. Pay close attention: <b>the preposition after accuse and warn is not optional</b>.</div>
+    <div class="grid4" style="margin-top:.35rem">
+      <div class="card green">
+        <div class="c-label green">SUGGEST &nbsp;<span class="tag green" style="font-size:.6rem">+ -ing / that</span></div>
+        <div style="font-size:.83rem;color:var(--muted);line-height:1.4;margin:.15rem 0">Propose an idea or action</div>
+        <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.84rem;font-style:italic;margin:.1rem 0"><em style="color:var(--red)">"Let's search the hotel records."</em></div>
+        <div style="font-size:.78rem;color:var(--muted);text-align:center;padding:.05rem 0">↓</div>
+        <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.84rem">Morrison <b>suggested searching</b> the hotel records.</div>
+        <div class="ex-note" style="font-size:.78rem;margin-top:.2rem">Also: suggested (that) they <b>should search</b>… ✅</div>
+      </div>
+      <div class="card red">
+        <div class="c-label red">WARN &nbsp;<span class="tag red" style="font-size:.6rem">+ obj + not to</span></div>
+        <div style="font-size:.83rem;color:var(--muted);line-height:1.4;margin:.15rem 0">Tell someone of danger or consequences</div>
+        <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.84rem;font-style:italic;margin:.1rem 0"><em style="color:var(--red)">"Don't leave the city, Eleanor!"</em></div>
+        <div style="font-size:.78rem;color:var(--muted);text-align:center;padding:.05rem 0">↓</div>
+        <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.84rem">He <b>warned</b> Eleanor <b>not to leave</b> the city.</div>
+        <div class="ex-err" style="font-size:.78rem;margin-top:.2rem">❌ He warned Eleanor to not leave… (wrong order)</div>
+      </div>
+      <div class="card purple">
+        <div class="c-label purple">ACCUSE &nbsp;<span class="tag purple" style="font-size:.6rem">+ obj + of + -ing</span></div>
+        <div style="font-size:.83rem;color:var(--muted);line-height:1.4;margin:.15rem 0">Say someone did something wrong</div>
+        <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.84rem;font-style:italic;margin:.1rem 0"><em style="color:var(--red)">"You're lying, Webb!"</em></div>
+        <div style="font-size:.78rem;color:var(--muted);text-align:center;padding:.05rem 0">↓</div>
+        <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.84rem">Morrison <b>accused</b> Webb <b>of lying</b>.</div>
+        <div class="ex-err" style="font-size:.78rem;margin-top:.2rem">❌ accused Webb <b>to lie</b> / <b>that he lied</b></div>
+      </div>
+      <div class="card teal">
+        <div class="c-label teal">EXPLAIN &nbsp;<span class="tag teal" style="font-size:.6rem">+ that / to + obj</span></div>
+        <div style="font-size:.83rem;color:var(--muted);line-height:1.4;margin:.15rem 0">Give reasons or information</div>
+        <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.84rem;font-style:italic;margin:.1rem 0"><em style="color:var(--red)">"The club is completely legal."</em></div>
+        <div style="font-size:.78rem;color:var(--muted);text-align:center;padding:.05rem 0">↓</div>
+        <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.84rem">Rosa <b>explained</b> (to Morrison) that the club was legal.</div>
+        <div class="ex-note" style="font-size:.78rem;margin-top:.2rem">Note: explained <b>to</b> him (not "explained him")</div>
+      </div>
+    </div>
+    <div style="background:var(--s3);border:1px solid var(--border);border-radius:var(--r);padding:.4rem .95rem;margin-top:.38rem">
+      <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:var(--gold);margin-bottom:.2rem">📋 Full pattern summary — both parts</div>
+      <div style="display:flex;gap:1.2rem;font-size:.84rem;flex-wrap:wrap">
+        <span><span class="tag gold">+ that</span> claim · insist · explain · suggest</span>
+        <span><span class="tag teal">+ -ing</span> deny · admit · suggest</span>
+        <span><span class="tag red">+ obj + not to</span> warn · tell · order · ask</span>
+        <span><span class="tag purple">+ obj + of + -ing</span> accuse</span>
+      </div>
+    </div>
+  </div>
+  <div class="navbar">
+    <button class="btn-nav" onclick="prev()">← Back</button>
+    <div class="nav-dots" id="nd2"></div>
+    <button class="btn-nav-primary" onclick="next()">Next →</button>
+  </div>
+</div>
+
+<!-- ══ SLIDE 3 — REPORTED COMMANDS ══ -->
+<div class="slide" data-slide="3">
+  <div class="topbar">
+    <div class="tb-logo">🔍 The Manhattan Affair</div>
+    <div class="tb-center">Reported Speech · Part 2 · 4t ESO</div>
+    <div class="tb-right"><div class="tb-slide-name">Reported Commands</div><div class="tb-counter"><span>3</span> / 7</div></div>
+  </div>
+  <div class="slide-content">
+    <div class="slide-kicker gold">Step 2</div>
+    <div class="slide-title">Reported <span class="gold">Commands</span> &amp; Requests</div>
+    <div class="slide-sub">Imperatives ("Do this! / Don't do that!") are reported using <b>told / asked / ordered / warned</b> + object + <b>(not) to</b> + infinitive. The word "don't" disappears entirely.</div>
+    <div style="display:flex;gap:.5rem;margin-bottom:.4rem">
+      <div class="formula" style="flex:1;font-size:.9rem">
+        <span class="kw">Positive:</span> &nbsp;told/asked/ordered + <em style="color:var(--teal)">person</em> + <span class="kw">to</span> + infinitive
+      </div>
+      <div class="formula red" style="flex:1;font-size:.9rem">
+        <span class="kw red">Negative:</span> &nbsp;told/warned/ordered + <em style="color:var(--teal)">person</em> + <span class="kw red">not to</span> + infinitive
+      </div>
+    </div>
+    <div class="grid4">
+      <div class="card gold">
+        <div class="c-label gold">Command → ordered</div>
+        <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.28rem .6rem;font-size:.87rem;font-style:italic;margin:.15rem 0"><em style="color:var(--red)">"Leave the room immediately!"</em></div>
+        <div style="font-size:.8rem;color:var(--muted);text-align:center;padding:.05rem 0">↓</div>
+        <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.28rem .6rem;font-size:.87rem">Morrison <b>ordered</b> Webb <b>to leave</b> the room.</div>
+      </div>
+      <div class="card teal">
+        <div class="c-label teal">Request → asked</div>
+        <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.28rem .6rem;font-size:.87rem;font-style:italic;margin:.15rem 0"><em style="color:var(--red)">"Please tell me the truth."</em></div>
+        <div style="font-size:.8rem;color:var(--muted);text-align:center;padding:.05rem 0">↓</div>
+        <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.28rem .6rem;font-size:.87rem">The detective <b>asked</b> Webb <b>to tell</b> the truth.</div>
+      </div>
+      <div class="card red">
+        <div class="c-label red">Neg. command → told + not to</div>
+        <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.28rem .6rem;font-size:.87rem;font-style:italic;margin:.15rem 0"><em style="color:var(--red)">"Don't touch the evidence!"</em></div>
+        <div style="font-size:.8rem;color:var(--muted);text-align:center;padding:.05rem 0">↓</div>
+        <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.28rem .6rem;font-size:.87rem">Morrison <b>told</b> everyone <b>not to touch</b> the evidence.</div>
+      </div>
+      <div class="card purple">
+        <div class="c-label purple">Warning → warned + not to</div>
+        <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.28rem .6rem;font-size:.87rem;font-style:italic;margin:.15rem 0"><em style="color:var(--red)">"Don't contact Rosa Caruso!"</em></div>
+        <div style="font-size:.8rem;color:var(--muted);text-align:center;padding:.05rem 0">↓</div>
+        <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.28rem .6rem;font-size:.87rem">He <b>warned</b> George <b>not to contact</b> Rosa Caruso.</div>
+      </div>
+    </div>
+    <div style="background:var(--s3);border:1px solid var(--border);border-radius:var(--r);padding:.42rem .95rem;margin-top:.38rem;display:grid;grid-template-columns:1fr 1fr;gap:.35rem">
+      <div>
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--err);margin-bottom:.18rem">⚠️ Never use "don't" in a reported command</div>
+        <div class="ex-err" style="font-size:.83rem">❌ Morrison told her <b>don't leave</b> the city.</div>
+        <div class="ex-ok" style="font-size:.83rem">✅ Morrison told her <b>not to leave</b> the city.</div>
+      </div>
+      <div>
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--err);margin-bottom:.18rem">⚠️ "not to" — word order matters</div>
+        <div class="ex-err" style="font-size:.83rem">❌ He warned her <b>to not leave</b> the city.</div>
+        <div class="ex-ok" style="font-size:.83rem">✅ He warned her <b>not to leave</b> the city.</div>
+      </div>
+    </div>
+  </div>
+  <div class="navbar">
+    <button class="btn-nav" onclick="prev()">← Back</button>
+    <div class="nav-dots" id="nd3"></div>
+    <button class="btn-nav-primary" onclick="next()">Next →</button>
+  </div>
+</div>
+
+<!-- ══ SLIDE 4 — REPORTED QUESTIONS: YES/NO ══ -->
+<div class="slide" data-slide="4">
+  <div class="topbar">
+    <div class="tb-logo">🔍 The Manhattan Affair</div>
+    <div class="tb-center">Reported Speech · Part 2 · 4t ESO</div>
+    <div class="tb-right"><div class="tb-slide-name">Reported Questions 1</div><div class="tb-counter"><span>4</span> / 7</div></div>
+  </div>
+  <div class="slide-content">
+    <div class="slide-kicker teal">Step 3</div>
+    <div class="slide-title">Reported <span class="teal">Questions</span> — Yes / No</div>
+    <div class="slide-sub">When the original question can be answered with yes or no, we report it using <b>asked + if / whether</b>. Tense backshifts. Word order becomes <b>normal</b> (subject + verb). No question mark.</div>
+    <div class="formula teal" style="font-size:.92rem;margin-bottom:.4rem">
+      <span class="kw teal">asked</span> + <em style="color:var(--teal)">person</em> + <span class="kw teal">if / whether</span> + subject + verb (normal order) &nbsp;— <em style="color:var(--muted)">no ? at the end</em>
+    </div>
+    <div class="grid2">
+      <div style="display:flex;flex-direction:column;gap:.4rem">
+        <div class="card teal">
+          <div class="c-label teal">Three examples — spot the changes</div>
+          <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.2rem">
+            <div>
+              <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.26rem .65rem;font-size:.87rem;font-style:italic"><em style="color:var(--red)">"<b>Are</b> you hiding something?"</em></div>
+              <div style="font-size:.78rem;color:var(--muted);padding:.06rem .3rem">↓ asked + if + normal order + backshift</div>
+              <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.26rem .65rem;font-size:.87rem">Morrison asked Webb <b>if he was hiding</b> something.</div>
+            </div>
+            <div>
+              <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.26rem .65rem;font-size:.87rem;font-style:italic"><em style="color:var(--red)">"<b>Did</b> you see Eleanor leave?"</em></div>
+              <div style="font-size:.78rem;color:var(--muted);padding:.06rem .3rem">↓ asked + if + normal order + backshift</div>
+              <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.26rem .65rem;font-size:.87rem">She asked him <b>if he had seen</b> Eleanor leave.</div>
+            </div>
+            <div>
+              <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.26rem .65rem;font-size:.87rem;font-style:italic"><em style="color:var(--red)">"<b>Can</b> you explain the ransom note?"</em></div>
+              <div style="font-size:.78rem;color:var(--muted);padding:.06rem .3rem">↓ asked + whether + normal order + backshift</div>
+              <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.26rem .65rem;font-size:.87rem">Morrison asked Rosa <b>whether she could explain</b> the ransom note.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:.4rem">
+        <div class="card gold">
+          <div class="c-label gold">if vs whether — both are correct</div>
+          <div style="font-size:.85rem;color:var(--muted);line-height:1.55;margin-top:.15rem">Both <b>if</b> and <b>whether</b> can be used for yes/no questions. <b>Whether</b> is slightly more formal — useful in press briefings and official reports.</div>
+          <div class="ex-ok" style="font-size:.84rem;margin-top:.2rem">He asked <b>if</b> she had left the hotel. ✅</div>
+          <div class="ex-ok" style="font-size:.84rem">He asked <b>whether</b> she had left the hotel. ✅</div>
+        </div>
+        <div style="background:var(--err-bg);border:1px solid var(--err-border);border-radius:var(--r);padding:.45rem .85rem">
+          <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.09em;font-weight:700;color:var(--err);margin-bottom:.2rem">⚠️ Three things that must change</div>
+          <div style="display:flex;flex-direction:column;gap:.2rem;font-size:.85rem">
+            <div><span class="tag red" style="font-size:.65rem">1 · No auxiliary</span> &nbsp;Did/Does/Is disappears from word order</div>
+            <div><span class="tag red" style="font-size:.65rem">2 · Normal order</span> &nbsp;subject + verb (not verb + subject)</div>
+            <div><span class="tag red" style="font-size:.65rem">3 · No ?</span> &nbsp;Reported questions never end with a question mark</div>
+          </div>
+          <div class="ex-err" style="font-size:.83rem;margin-top:.25rem">❌ She asked if <b>had he seen</b> Eleanor<b>?</b></div>
+          <div class="ex-ok" style="font-size:.83rem">✅ She asked if <b>he had seen</b> Eleanor.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="navbar">
+    <button class="btn-nav" onclick="prev()">← Back</button>
+    <div class="nav-dots" id="nd4"></div>
+    <button class="btn-nav-primary" onclick="next()">Next →</button>
+  </div>
+</div>
+
+<!-- ══ SLIDE 5 — REPORTED QUESTIONS: WH- ══ -->
+<div class="slide" data-slide="5">
+  <div class="topbar">
+    <div class="tb-logo">🔍 The Manhattan Affair</div>
+    <div class="tb-center">Reported Speech · Part 2 · 4t ESO</div>
+    <div class="tb-right"><div class="tb-slide-name">Reported Questions 2</div><div class="tb-counter"><span>5</span> / 7</div></div>
+  </div>
+  <div class="slide-content">
+    <div class="slide-kicker teal">Step 4</div>
+    <div class="slide-title">Reported Questions — <span class="teal">Wh- Words</span></div>
+    <div class="slide-sub">For questions with <b>who, what, where, when, why, how</b>, the wh-word stays, but word order changes to <b>normal</b> (subject + verb). No do/does/did. Tense backshifts.</div>
+    <div class="formula teal" style="font-size:.91rem;margin-bottom:.38rem">
+      <span class="kw teal">asked</span> + <em style="color:var(--teal)">person</em> + <span class="kw teal">wh-word</span> + subject + verb (normal order, backshift) — <em style="color:var(--muted)">no ?</em>
+    </div>
+    <div class="grid2">
+      <div style="display:flex;flex-direction:column;gap:.38rem">
+        <div class="card teal">
+          <div class="c-label teal">Four wh- examples from the case</div>
+          <div style="display:flex;flex-direction:column;gap:.45rem;margin-top:.2rem">
+            <div>
+              <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.24rem .62rem;font-size:.87rem;font-style:italic"><em style="color:var(--red)">"<b>Where</b> is Eleanor now?"</em></div>
+              <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.24rem .62rem;font-size:.87rem;margin-top:.06rem">He asked <b>where Eleanor was</b>.</div>
+            </div>
+            <div>
+              <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.24rem .62rem;font-size:.87rem;font-style:italic"><em style="color:var(--red)">"<b>Who</b> sent the ransom note?"</em></div>
+              <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.24rem .62rem;font-size:.87rem;margin-top:.06rem">Morrison asked <b>who had sent</b> the ransom note.</div>
+            </div>
+            <div>
+              <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.24rem .62rem;font-size:.87rem;font-style:italic"><em style="color:var(--red)">"<b>What</b> did you see at the bar?"</em></div>
+              <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.24rem .62rem;font-size:.87rem;margin-top:.06rem">She asked Webb <b>what he had seen</b> at the bar.</div>
+            </div>
+            <div>
+              <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.24rem .62rem;font-size:.87rem;font-style:italic"><em style="color:var(--red)">"<b>Why</b> did Eleanor go to the Velvet Room?"</em></div>
+              <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.24rem .62rem;font-size:.87rem;margin-top:.06rem">He asked <b>why Eleanor had gone</b> to the Velvet Room.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:.4rem">
+        <div style="background:var(--err-bg);border:1px solid var(--err-border);border-radius:var(--r);padding:.45rem .85rem">
+          <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.09em;font-weight:700;color:var(--err);margin-bottom:.22rem">⚠️ The most common mistake</div>
+          <div style="font-size:.85rem;color:var(--muted);margin-bottom:.22rem">In a direct question, the verb comes before the subject. In a reported question, the order flips back to <b>normal</b>.</div>
+          <div class="ex-err">"Where is Eleanor?" &nbsp;→&nbsp; ❌ He asked where <b>was Eleanor</b>.</div>
+          <div class="ex-ok">✅ He asked where <b>Eleanor was</b>.</div>
+          <div class="ex-err" style="margin-top:.25rem">"What did he see?" &nbsp;→&nbsp; ❌ She asked what <b>did he see</b>.</div>
+          <div class="ex-ok">✅ She asked what <b>he had seen</b>.</div>
+        </div>
+        <div class="card gold">
+          <div class="c-label gold">Summary — two types of reported questions</div>
+          <div style="display:flex;flex-direction:column;gap:.25rem;margin-top:.15rem;font-size:.85rem">
+            <div style="display:flex;align-items:baseline;gap:.5rem">
+              <span class="tag teal" style="flex-shrink:0">Yes / No</span>
+              <span style="color:var(--muted)">asked + <b>if / whether</b> + subject + verb</span>
+            </div>
+            <div style="display:flex;align-items:baseline;gap:.5rem">
+              <span class="tag teal" style="flex-shrink:0">Wh- word</span>
+              <span style="color:var(--muted)">asked + <b>wh-word</b> + subject + verb</span>
+            </div>
+            <div style="font-size:.78rem;color:var(--muted);margin-top:.1rem;border-top:1px solid var(--border);padding-top:.2rem">Both: <b>normal word order</b> · <b>tense backshifts</b> · <b>no question mark</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="navbar">
+    <button class="btn-nav" onclick="prev()">← Back</button>
+    <div class="nav-dots" id="nd5"></div>
+    <button class="btn-nav-primary" onclick="next()">Next →</button>
+  </div>
+</div>
+
+<!-- ══ SLIDE 6 — COMMON ERRORS PART 2 ══ -->
+<div class="slide" id="s6" data-slide="6">
+  <div class="topbar">
+    <div class="tb-logo">🔍 The Manhattan Affair</div>
+    <div class="tb-center">Reported Speech · Part 2 · 4t ESO</div>
+    <div class="tb-right"><div class="tb-slide-name">Common Errors</div><div class="tb-counter"><span>6</span> / 7</div></div>
+  </div>
+  <div class="slide-content">
+    <div class="slide-kicker err">Watch Out!</div>
+    <div class="slide-title">Common <span class="err">Errors</span> — Part 2</div>
+    <div class="slide-sub">Commands and questions produce their own errors. Spot what's wrong <b>before</b> clicking reveal.</div>
+    <div class="err-grid">
+      <div class="err-card">
+        <div class="err-num">Error 1</div>
+        <div class="err-rule">"don't" used in a reported command</div>
+        <div class="ex-err">❌ "Morrison told Eleanor <b>don't contact</b> anyone."</div>
+        <div class="err-reveal" id="rev1" style="display:none">
+          <div class="ex-ok">✅ Morrison told Eleanor <b>not to contact</b> anyone.</div>
+          <div class="err-explain">Reported commands <b>never</b> use "don't". Negative = <b>not to</b> + infinitive.</div>
+        </div>
+        <button class="btn-reveal" onclick="reveal('rev1',this)">Show correction ▾</button>
+      </div>
+      <div class="err-card">
+        <div class="err-num">Error 2</div>
+        <div class="err-rule">accuse with wrong preposition</div>
+        <div class="ex-err">❌ "Morrison accused Webb <b>to lie</b> about the night."</div>
+        <div class="err-reveal" id="rev2" style="display:none">
+          <div class="ex-ok">✅ Morrison accused Webb <b>of lying</b> about that night.</div>
+          <div class="err-explain"><b>Accuse</b> always takes <b>of + -ing</b>. Never "to" + infinitive. Same with "suspect of".</div>
+        </div>
+        <button class="btn-reveal" onclick="reveal('rev2',this)">Show correction ▾</button>
+      </div>
+      <div class="err-card">
+        <div class="err-num">Error 3</div>
+        <div class="err-rule">Question word order not changed</div>
+        <div class="ex-err">❌ "He asked where <b>was Eleanor</b> on the night of the 14th."</div>
+        <div class="err-reveal" id="rev3" style="display:none">
+          <div class="ex-ok">✅ He asked where <b>Eleanor was</b> on the night of the 14th.</div>
+          <div class="err-explain">In reported questions, word order returns to <b>normal: subject + verb</b>. Not the inverted question order.</div>
+        </div>
+        <button class="btn-reveal" onclick="reveal('rev3',this)">Show correction ▾</button>
+      </div>
+      <div class="err-card">
+        <div class="err-num">Error 4</div>
+        <div class="err-rule">Question mark in a reported question</div>
+        <div class="ex-err">❌ "She asked if Webb had been to the Velvet Room<b>?</b>"</div>
+        <div class="err-reveal" id="rev4" style="display:none">
+          <div class="ex-ok">✅ She asked if Webb had been to the Velvet Room.</div>
+          <div class="err-explain">A reported question is <b>not a real question</b> — it's a statement that reports one. It never ends with a question mark.</div>
+        </div>
+        <button class="btn-reveal" onclick="reveal('rev4',this)">Show correction ▾</button>
+      </div>
+    </div>
+  </div>
+  <div class="navbar">
+    <button class="btn-nav" onclick="prev()">← Back</button>
+    <div class="nav-dots" id="nd6"></div>
+    <button class="btn-nav-primary" onclick="next()">Next →</button>
+  </div>
+</div>
+
+<!-- ══ SLIDE 7 — QUIZ ══ -->
+<div class="slide" data-slide="7">
+  <div class="topbar">
+    <div class="tb-logo">🔍 The Manhattan Affair</div>
+    <div class="tb-center">Reported Speech · Part 2 · 4t ESO</div>
+    <div class="tb-right"><div class="tb-slide-name">Quiz · Part 2</div><div class="tb-counter"><span>7</span> / 7</div></div>
+  </div>
+  <div class="slide-content">
+    <div class="slide-kicker gold">Practice — try as many times as you like!</div>
+    <div class="slide-title">Case File <span class="gold">Quiz</span> — Part 2</div>
+    <div class="quiz-wrap">
+      <div class="quiz-top">
+        <div class="qprog" id="qprog"></div>
+        <div class="qscore" id="qscore">0 / 9</div>
+      </div>
+      <div id="qcard-wrap"></div>
+      <div class="quiz-result" id="qresult">
+        <div class="qr-icon" id="qr-icon"></div>
+        <div class="qr-title" id="qr-title">Case Closed!</div>
+        <div class="qr-score" id="qr-score"></div>
+        <button class="btn-full-retry" onclick="initQuiz()">🔄 Try Again</button>
+      </div>
+    </div>
+  </div>
+  <div class="navbar">
+    <button class="btn-nav" onclick="prev()">← Back</button>
+    <div class="nav-dots" id="nd7"></div>
+    <button class="btn-nav" disabled>— Case Closed —</button>
+  </div>
+</div>
+
+</div>
+<script>
+const TOTAL=7; let cur=1;
+function goTo(n){
+  document.querySelectorAll('.slide').forEach(s=>{
+    const sn=+s.dataset.slide;
+    s.classList.remove('active','exit-left');
+    if(sn===n)s.classList.add('active');
+    else if(sn<n)s.classList.add('exit-left');
+  });
+  cur=n;dots();
+  if(n===6){
+    ['rev1','rev2','rev3','rev4'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+    document.querySelectorAll('#s6 .btn-reveal').forEach(btn=>{btn.textContent='Show correction ▾';btn.classList.remove('done');btn.disabled=false;});
+  }
+}
+function next(){if(cur<TOTAL)goTo(cur+1)}
+function prev(){if(cur>1)goTo(cur-1)}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown')next();
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp')prev();
+});
+function dots(){
+  document.querySelectorAll('[id^="nd"]').forEach(c=>{
+    c.innerHTML=Array.from({length:TOTAL},(_,i)=>`<div class="nav-dot ${i+1===cur?'active':''}" onclick="goTo(${i+1})"></div>`).join('');
+  });
+}
+dots();
+function reveal(id,btn){const el=document.getElementById(id);if(!el)return;el.style.display='block';btn.textContent='✓ Correction shown';btn.classList.add('done');btn.disabled=true;}
+
+const QS=[
+  {q:'Morrison ___ searching the hotel records immediately.',b:true,
+   opts:['suggested','said','insisted','warned'],ans:0,type:'Reporting Verbs',
+   fb:'<b>Suggest + -ing</b>: "suggested searching" ✅. Also possible: "suggested (that) they should search…"'},
+  {q:'Morrison ___ Eleanor ___ the city without permission.',b:true,
+   opts:['warned · not to leave','told · don\'t leave','warned · to not leave','said · not leave'],ans:0,type:'Reporting Verbs',
+   fb:'<b>Warn + object + not to + infinitive.</b> "warned Eleanor not to leave" ✅. "to not leave" ❌ — "not to" always comes together.'},
+  {q:'Morrison ___ Webb ___ about his whereabouts.',b:true,
+   opts:['accused · of lying','accused · to lie','accused · that he lied','told · of lying'],ans:0,type:'Reporting Verbs',
+   fb:'<b>Accuse + object + of + -ing</b>: "accused Webb of lying" ✅. Never "to lie" or "that he lied" with accuse.'},
+  {q:'"Leave the room, Webb!" → Morrison ___ Webb ___ the room.',b:true,
+   opts:['told · to leave','said · leave','told · don\'t leave','asked · leaving'],ans:0,type:'Reported Commands',
+   fb:'<b>Reported command (positive):</b> told + object + <b>to</b> + infinitive. "told Webb to leave" ✅.'},
+  {q:'"Don\'t touch the evidence!" → Morrison told the officers ___ the evidence.',b:true,
+   opts:["don't touch","not touch","not to touch","to not touching"],ans:2,type:'Reported Commands',
+   fb:'<b>Reported command (negative):</b> told + object + <b>not to</b> + infinitive. "not to touch" ✅. Never "don\'t touch" in reported speech!'},
+  {q:'"Did you see Eleanor leave?" → Morrison asked Webb ___ Eleanor leave.',b:true,
+   opts:['if he had seen','if had he seen','whether did he see','if he has seen'],ans:0,type:'Reported Questions',
+   fb:'Yes/No question → <b>asked + if + normal order + backshift</b>. "if he had seen" ✅. No auxiliary "did", no inverted order.'},
+  {q:'"Where is Eleanor?" → He asked where Eleanor ___.',b:true,
+   opts:['is','was','were','has been'],ans:1,type:'Reported Questions',
+   fb:'<b>Wh- question → normal order + backshift.</b> "where Eleanor was" ✅ — NOT "where was Eleanor". Is → was (backshift).'},
+  {q:'"What did you see at the bar?" → She asked what Webb ___ at the bar.',b:true,
+   opts:['did see','saw','had seen','has seen'],ans:2,type:'Reported Questions',
+   fb:'<b>Wh- question + backshift:</b> "did see" → Past Simple first → then Past Perfect. "what Webb <b>had seen</b>" ✅. "did see" ❌ — no auxiliary in reported questions.'},
+  {q:'Which reported question is correct?',b:false,
+   opts:['She asked if was Webb at the club?','She asked whether was Webb at the club.','She asked if Webb had been at the club.','She asked if Webb had been at the club?'],
+   ans:2,type:'Reported Questions',
+   fb:'<b>Three rules:</b> (1) normal word order — "Webb had been", not "was Webb"; (2) backshift; (3) no question mark. Only option C follows all three rules.'},
+];
+let qi=0,sc=0,answered=[];
+function initQuiz(){qi=0;sc=0;answered=new Array(QS.length).fill(false);document.getElementById('qresult').classList.remove('show');document.getElementById('qcard-wrap').style.display='';render();}
+function renderProg(){
+  document.getElementById('qprog').innerHTML=QS.map((_,i)=>`<div class="qpd ${answered[i]?'done':i===qi?'current':''}"></div>`).join('');
+  document.getElementById('qscore').textContent=sc+' / '+QS.length;
+}
+function render(){
+  renderProg();const q=QS[qi];
+  const col=q.type.includes('Verb')?'teal':q.type.includes('Command')?'red':q.type.includes('Question')?'teal':'gold';
+  document.getElementById('qcard-wrap').innerHTML=`<div class="qcard"><div class="qcard-hdr"><span class="qcard-num">Q ${qi+1} / ${QS.length}</span><span class="tag ${col}">${q.type}</span></div><div class="qcard-body"><div class="qcard-q">${q.b?q.q.replace('___','<span class="blank">___</span>'):q.q}</div><div class="qopts">${q.opts.map((o,i)=>`<div class="qopt" id="qo${i}" onclick="choose(${i})"><span class="ql">${'ABCD'[i]}</span><span>${o}</span></div>`).join('')}</div><div class="qfb" id="qfb"></div><div class="quiz-nav-btns"><button class="btn-qnext" id="qnxt" onclick="nextQ()">${qi<QS.length-1?'Next →':'See results →'}</button><button class="btn-retry-q" id="qret" onclick="retryQ()">↩ Try again</button></div></div></div>`;
+}
+function choose(i){
+  const q=QS[qi];if(answered[qi])return;
+  answered[qi]=true;const ok=i===q.ans;if(ok)sc++;
+  q.opts.forEach((_,j)=>{const el=document.getElementById('qo'+j);if(!el)return;el.classList.add('locked');if(j===q.ans)el.classList.add(ok?'correct':'reveal');if(j===i&&!ok)el.classList.add('wrong');});
+  const fb=document.getElementById('qfb');fb.className='qfb show '+(ok?'good':'bad');
+  fb.innerHTML=(ok?'✅ <b>Correct!</b> ':'❌ <b>Not quite.</b> ')+q.fb;
+  document.getElementById('qnxt').classList.add('show');if(!ok)document.getElementById('qret').classList.add('show');renderProg();
+}
+function nextQ(){qi++;if(qi>=QS.length)showResult();else render();}
+function retryQ(){answered[qi]=false;render();}
+function showResult(){
+  document.getElementById('qcard-wrap').style.display='none';
+  const p=Math.round(sc/QS.length*100);
+  const[icon,title]=p===100?['👑','Legendary Detective!']:p>=78?['🎖️','Chief Detective!']:p>=56?['⭐','Investigator!']:['🔎','Keep Investigating!'];
+  document.getElementById('qr-icon').textContent=icon;document.getElementById('qr-title').textContent=title;
+  document.getElementById('qr-score').innerHTML='You scored <b>'+sc+' out of '+QS.length+'</b> ('+p+'%)';
+  document.getElementById('qresult').classList.add('show');renderProg();
+}
+initQuiz();
+</script>
+</body>
+</html>
