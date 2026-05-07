@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reported Speech · Part 1 – The Manhattan Affair · 4t ESO</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f5f0e8;--surface:#ffffff;--s2:#faf7f2;--s3:#f0ebe0;
+  --border:#ddd5c0;--border2:#ccc0a0;--text:#1a1208;--muted:#6b5a3e;
+  --gold:#92660a;--gold-bg:rgba(146,102,10,.07);--gold-border:rgba(146,102,10,.25);
+  --red:#8b1a1a;--red-bg:rgba(139,26,26,.07);--red-border:rgba(139,26,26,.25);
+  --teal:#0e6b6b;--teal-bg:rgba(14,107,107,.07);--teal-border:rgba(14,107,107,.25);
+  --purple:#5e2a8e;--purple-bg:rgba(94,42,142,.07);--purple-border:rgba(94,42,142,.25);
+  --green:#1a5c2e;--green-bg:rgba(26,92,46,.07);--green-border:rgba(26,92,46,.25);
+  --ok:#166534;--err:#991b1b;--err-bg:rgba(153,27,27,.07);--err-border:rgba(153,27,27,.22);
+  --r:8px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;background:var(--bg)}
+body{color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px}
+.deck{width:100vw;height:100vh;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:opacity .35s ease,transform .35s ease;transform:translateX(36px)}
+.slide.active{opacity:1;pointer-events:all;transform:translateX(0)}
+.slide.exit-left{transform:translateX(-36px);opacity:0}
+.topbar{flex-shrink:0;background:var(--surface);border-bottom:2px solid var(--border);padding:.45rem 1.4rem;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 6px rgba(0,0,0,.07);z-index:20;position:relative}
+.tb-logo{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:.06em;background:linear-gradient(135deg,var(--gold),#b37a0c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.tb-center{font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+.tb-right{display:flex;align-items:center;gap:.75rem}
+.tb-counter{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.06em;color:var(--muted)}
+.tb-counter span{color:var(--gold)}
+.tb-slide-name{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);background:var(--s2);border:1px solid var(--border);border-radius:4px;padding:.15rem .5rem}
+.slide-content{flex:1;overflow:hidden;padding:.75rem 1.6rem .5rem;display:flex;flex-direction:column}
+.navbar{flex-shrink:0;background:var(--surface);border-top:2px solid var(--border);padding:.45rem 1.4rem;display:flex;align-items:center;justify-content:space-between;box-shadow:0 -1px 6px rgba(0,0,0,.04);z-index:20}
+.nav-dots{display:flex;gap:.35rem;align-items:center}
+.nav-dot{width:6px;height:6px;border-radius:50%;background:var(--border2);cursor:pointer;transition:all .2s}
+.nav-dot.active{background:var(--gold);width:18px;border-radius:3px}
+.nav-dot:hover:not(.active){background:var(--muted)}
+.btn-nav{background:var(--s2);border:1px solid var(--border2);border-radius:6px;color:var(--text);padding:.42rem 1.1rem;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.78rem;cursor:pointer;transition:all .15s}
+.btn-nav:hover:not(:disabled){border-color:var(--gold);color:var(--gold);background:#fff}
+.btn-nav:disabled{opacity:.3;cursor:default}
+.btn-nav-primary{background:linear-gradient(135deg,var(--gold),#b37a0c);color:#fff;border:none;border-radius:6px;padding:.42rem 1.25rem;font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:.07em;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.btn-nav-primary:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(146,102,10,.35)}
+.slide-kicker{font-size:.75rem;text-transform:uppercase;letter-spacing:.18em;font-weight:700;margin-bottom:.2rem}
+.slide-kicker.gold{color:var(--gold)}.slide-kicker.red{color:var(--red)}.slide-kicker.teal{color:var(--teal)}.slide-kicker.err{color:var(--err)}.slide-kicker.green{color:var(--green)}
+.slide-title{font-family:'Bebas Neue',sans-serif;font-size:2.25rem;letter-spacing:.04em;line-height:1;margin-bottom:.25rem}
+.slide-title .gold{color:var(--gold)}.slide-title .red{color:var(--red)}.slide-title .teal{color:var(--teal)}.slide-title .err{color:var(--err)}
+.slide-sub{color:var(--muted);font-size:.88rem;line-height:1.5;margin-bottom:.45rem}
+.slide-sub b{color:var(--text)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;flex:1}
+.grid4{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;flex:1}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:.6rem .85rem;display:flex;flex-direction:column;gap:.18rem}
+.card.gold{border-color:var(--gold-border);background:var(--gold-bg)}
+.card.red{border-color:var(--red-border);background:var(--red-bg)}
+.card.teal{border-color:var(--teal-border);background:var(--teal-bg)}
+.card.purple{border-color:var(--purple-border);background:var(--purple-bg)}
+.card.green{border-color:var(--green-border);background:var(--green-bg)}
+.c-label{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em}
+.c-label.gold{color:var(--gold)}.c-label.red{color:var(--red)}.c-label.teal{color:var(--teal)}.c-label.purple{color:var(--purple)}.c-label.green{color:var(--green)}.c-label.err{color:var(--err)}
+.c-body{font-size:.87rem;color:var(--muted);line-height:1.55}
+.c-body b{color:var(--text)}
+.formula{background:var(--s2);border-left:3px solid var(--gold);border-radius:0 6px 6px 0;padding:.42rem .9rem;margin:.25rem 0;font-size:.88rem;line-height:1.6}
+.formula.teal{border-left-color:var(--teal)}.formula.red{border-left-color:var(--red)}.formula.green{border-left-color:var(--green)}
+.formula .kw{font-weight:700;color:var(--gold)}.formula .kw.teal{color:var(--teal)}.formula .kw.red{color:var(--red)}
+.ex-err{background:#fff;border-left:3px solid var(--err);border-radius:0 5px 5px 0;padding:.3rem .7rem;font-size:.88rem;color:var(--err);line-height:1.5;margin:.1rem 0}
+.ex-ok{background:#fff;border-left:3px solid var(--ok);border-radius:0 5px 5px 0;padding:.3rem .7rem;font-size:.88rem;color:#166534;line-height:1.5;margin:.1rem 0}
+.ex-note{background:var(--s2);border-left:3px solid var(--gold);border-radius:0 5px 5px 0;padding:.3rem .7rem;font-size:.86rem;color:var(--text);line-height:1.5;margin:.1rem 0}
+.tag{display:inline-block;padding:.1rem .45rem;border-radius:4px;font-size:.68rem;font-weight:700}
+.tag.gold{background:rgba(146,102,10,.12);color:var(--gold);border:1px solid rgba(146,102,10,.28)}
+.tag.teal{background:rgba(14,107,107,.12);color:var(--teal);border:1px solid rgba(14,107,107,.28)}
+.tag.red{background:rgba(139,26,26,.12);color:var(--red);border:1px solid rgba(139,26,26,.28)}
+.tag.purple{background:rgba(94,42,142,.12);color:var(--purple);border:1px solid rgba(94,42,142,.28)}
+.intro-body{flex:1;display:flex;flex-direction:column;gap:.55rem;justify-content:center}
+.intro-badge{display:inline-flex;align-items:center;gap:.4rem;background:var(--gold-bg);border:1px solid var(--gold-border);border-radius:100px;padding:.25rem .8rem;font-size:.78rem;font-weight:700;color:var(--gold);letter-spacing:.05em;width:fit-content}
+.intro-title{font-family:'Bebas Neue',sans-serif;font-size:3.2rem;letter-spacing:.03em;line-height:.95}
+.intro-title .l1{display:block;color:var(--gold)}.intro-title .l2{display:block;color:var(--red)}
+.intro-desc{color:var(--muted);font-size:.89rem;line-height:1.55;max-width:640px}
+.intro-desc b{color:var(--text)}
+.intro-chips{display:grid;grid-template-columns:repeat(4,1fr);gap:.45rem}
+.i-chip{background:var(--surface);border:1px solid var(--border2);border-radius:var(--r);padding:.45rem .7rem}
+.i-chip .ic-n{font-weight:700;font-size:.84rem;color:var(--text)}
+.i-chip .ic-d{color:var(--muted);font-size:.72rem;margin-top:.06rem}
+.intro-row{display:grid;grid-template-columns:1fr 1fr;gap:.45rem}
+.intro-block{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:.5rem .85rem}
+.ib-text{font-size:.85rem;color:var(--muted);line-height:1.45}
+.ib-text b{color:var(--text)}
+/* Backshift table */
+.bs-wrap{flex:1;display:flex;flex-direction:column;gap:.4rem}
+.bs-table{width:100%;border-collapse:collapse;font-size:.87rem;background:var(--surface);border-radius:var(--r);overflow:hidden;border:1px solid var(--border)}
+.bs-table th{padding:.38rem .85rem;text-align:left;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;background:var(--s3);border-bottom:2px solid var(--border)}
+.bs-table th:nth-child(1){color:var(--red)}.bs-table th:nth-child(3){color:var(--teal)}.bs-table th:nth-child(2){color:var(--muted);text-align:center;width:38px}
+.bs-table td{padding:.34rem .85rem;border-bottom:1px solid var(--border);vertical-align:middle;line-height:1.4}
+.bs-table tr:last-child td{border-bottom:none}
+.bs-table tr:nth-child(odd) td{background:var(--s2)}
+.bs-table td:nth-child(1){color:var(--red);font-weight:700;font-size:.83rem}
+.bs-table td:nth-child(2){text-align:center;font-size:1.1rem;color:var(--gold);font-weight:700}
+.bs-table td:nth-child(3){color:var(--teal);font-weight:600;font-size:.83rem}
+/* Errors */
+.err-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;flex:1}
+.err-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:.6rem .85rem;display:flex;flex-direction:column;gap:.25rem}
+.err-num{font-family:'Bebas Neue',sans-serif;font-size:.85rem;color:var(--err);letter-spacing:.06em;background:var(--err-bg);border:1px solid var(--err-border);padding:.08rem .4rem;border-radius:4px;width:fit-content}
+.err-rule{font-size:.81rem;font-weight:700;color:var(--text);margin-bottom:.06rem}
+.err-explain{font-size:.79rem;color:var(--muted);line-height:1.45;margin-top:.1rem}
+.err-explain b{color:var(--text)}
+.err-reveal{animation:revealIn .25s ease}
+@keyframes revealIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.btn-reveal{margin-top:auto;align-self:flex-start;background:var(--s2);border:1px solid var(--border2);border-radius:6px;color:var(--gold);font-size:.75rem;font-weight:700;font-family:'DM Sans',sans-serif;padding:.26rem .72rem;cursor:pointer;transition:all .15s}
+.btn-reveal:hover{background:var(--gold-bg);border-color:var(--gold)}
+.btn-reveal.done{color:var(--ok);border-color:rgba(22,163,74,.3);background:rgba(22,163,74,.07);cursor:default}
+/* Quiz */
+.quiz-wrap{flex:1;display:flex;flex-direction:column;gap:.5rem;max-width:680px}
+.quiz-top{display:flex;align-items:center;gap:1rem}
+.qprog{display:flex;gap:.25rem;flex:1}
+.qpd{flex:1;height:4px;border-radius:2px;background:var(--border);transition:background .25s}
+.qpd.done{background:var(--ok)}.qpd.current{background:var(--gold)}
+.qscore{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.06em;color:var(--gold);white-space:nowrap}
+.qcard{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;animation:qIn .3s ease;flex:1;display:flex;flex-direction:column}
+@keyframes qIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.qcard-hdr{padding:.48rem .9rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.55rem;background:var(--s2)}
+.qcard-num{font-family:'Bebas Neue',sans-serif;font-size:.8rem;letter-spacing:.08em;color:var(--gold)}
+.qcard-body{padding:.7rem .9rem;flex:1;display:flex;flex-direction:column;gap:.48rem}
+.qcard-q{font-size:.93rem;font-weight:600;line-height:1.5;color:var(--text)}
+.qcard-q .blank{display:inline-block;border-bottom:2px solid var(--gold);min-width:80px;text-align:center;color:var(--gold);font-weight:700;padding:0 .25rem}
+.qopts{display:grid;grid-template-columns:1fr 1fr;gap:.35rem}
+.qopt{display:flex;align-items:center;gap:.5rem;padding:.4rem .7rem;border-radius:6px;border:1px solid var(--border);cursor:pointer;transition:all .15s;font-size:.85rem;background:var(--s2);color:var(--text)}
+.qopt:hover:not(.locked){border-color:var(--gold);background:var(--gold-bg);color:var(--gold)}
+.qopt .ql{font-family:'Bebas Neue',sans-serif;font-size:.9rem;color:var(--muted);width:18px;flex-shrink:0}
+.qopt.correct{border-color:var(--ok)!important;background:rgba(22,163,74,.1)!important;color:#166534!important}
+.qopt.correct .ql{color:var(--ok)}
+.qopt.wrong{border-color:var(--err)!important;background:rgba(153,27,27,.08)!important;color:var(--err)!important}
+.qopt.wrong .ql{color:var(--err)}
+.qopt.reveal{border-color:rgba(22,163,74,.4);background:rgba(22,163,74,.06)}
+.qopt.locked{cursor:default}
+.qfb{display:none;border-radius:6px;padding:.45rem .72rem;font-size:.82rem;line-height:1.5}
+.qfb.show{display:block}
+.qfb.good{background:rgba(22,163,74,.1);border:1px solid rgba(22,163,74,.25);color:#166534}
+.qfb.bad{background:rgba(153,27,27,.07);border:1px solid rgba(153,27,27,.25);color:var(--err)}
+.qfb b{color:var(--text)}
+.quiz-nav-btns{display:flex;gap:.5rem}
+.btn-qnext{background:linear-gradient(135deg,var(--gold),#b37a0c);color:#fff;border:none;border-radius:6px;padding:.38rem 1.1rem;font-family:'Bebas Neue',sans-serif;font-size:.88rem;letter-spacing:.06em;cursor:pointer;display:none;transition:transform .15s}
+.btn-qnext.show{display:block}.btn-qnext:hover{transform:translateY(-1px)}
+.btn-retry-q{background:var(--s2);border:1px solid var(--border2);border-radius:6px;color:var(--muted);padding:.38rem .9rem;font-family:'DM Sans',sans-serif;font-weight:700;font-size:.77rem;cursor:pointer;display:none;transition:all .15s}
+.btn-retry-q.show{display:block}.btn-retry-q:hover{border-color:var(--gold);color:var(--gold)}
+.quiz-result{display:none;background:linear-gradient(135deg,var(--gold-bg),var(--red-bg));border:1px solid var(--gold-border);border-radius:var(--r);padding:1.2rem;text-align:center;animation:qIn .4s ease;flex:1;align-items:center;justify-content:center;flex-direction:column;gap:.5rem}
+.quiz-result.show{display:flex}
+.qr-icon{font-size:2.5rem}.qr-title{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--gold);letter-spacing:.04em}
+.qr-score{font-size:.88rem;color:var(--muted)}.qr-score b{color:var(--text);font-size:1rem}
+.btn-full-retry{background:linear-gradient(135deg,var(--gold),#b37a0c);color:#fff;border:none;border-radius:6px;padding:.55rem 1.4rem;font-family:'Bebas Neue',sans-serif;font-size:.92rem;letter-spacing:.07em;cursor:pointer;margin-top:.3rem}
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- ══ SLIDE 1 — INTRO ══ -->
+<div class="slide active" data-slide="1">
+  <div class="topbar">
+    <div class="tb-logo">🔍 The Manhattan Affair</div>
+    <div class="tb-center">Reported Speech · Part 1 · 4t ESO</div>
+    <div class="tb-right"><div class="tb-slide-name">Introduction</div><div class="tb-counter"><span>1</span> / 8</div></div>
+  </div>
+  <div class="slide-content">
+    <div class="intro-body">
+      <div class="intro-badge">📋 Part 1 · Missions 1 &amp; 2 · New York, 1933</div>
+      <div class="intro-title"><span class="l1">REPORTED</span><span class="l2">SPEECH</span></div>
+      <div class="intro-desc">As a detective you never just quote witnesses — you <b>report</b> what they said: in your notebook, to Inspector Morrison, in a press briefing. This is reported speech: retelling someone's words without quoting them exactly.</div>
+      <div class="intro-chips">
+        <div class="i-chip"><div class="ic-n">said / told</div><div class="ic-d">Which verb needs an object?</div></div>
+        <div class="i-chip"><div class="ic-n">The Backshift</div><div class="ic-d">Tenses shift one step into the past</div></div>
+        <div class="i-chip"><div class="ic-n">Pronouns &amp; Time</div><div class="ic-d">I→he/she · today→that day…</div></div>
+        <div class="i-chip"><div class="ic-n">Reporting Verbs</div><div class="ic-d">claim · deny · admit · insist</div></div>
+      </div>
+      <div class="intro-row">
+        <div class="intro-block"><div class="ib-text"><b>Direct speech</b> — exact words in quotes:<br><em>"I saw Eleanor at the bar last night."</em><br><b>Reported speech</b> — retold in your own words:<br><em>Webb said he <b>had seen</b> Eleanor at the bar <b>the night before</b>.</em></div></div>
+        <div class="intro-block"><div class="ib-text">Three things change when you report speech: the <b>tense</b> shifts back, the <b>pronouns</b> change to match the new speaker, and <b>time/place words</b> change. Part 2 covers commands and questions.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="navbar">
+    <button class="btn-nav" onclick="prev()" disabled>← Back</button>
+    <div class="nav-dots" id="nd1"></div>
+    <button class="btn-nav-primary" onclick="next()">Next →</button>
+  </div>
+</div>
+
+<!-- ══ SLIDE 2 — DIRECT vs REPORTED ══ -->
+<div class="slide" data-slide="2">
+  <div class="topbar">
+    <div class="tb-logo">🔍 The Manhattan Affair</div>
+    <div class="tb-center">Reported Speech · Part 1 · 4t ESO</div>
+    <div class="tb-right"><div class="tb-slide-name">Key Concept</div><div class="tb-counter"><span>2</span> / 8</div></div>
+  </div>
+  <div class="slide-content">
+    <div class="slide-kicker gold">Key Concept</div>
+    <div class="slide-title">Direct <span class="gold">vs</span> Reported Speech</div>
+    <div class="slide-sub">Direct speech quotes the <b>exact words</b>. Reported speech <b>retells the message</b> — without quotation marks, with tenses and pronouns adjusted.</div>
+    <div class="grid2" style="margin-top:.35rem">
+      <div style="display:flex;flex-direction:column;gap:.4rem">
+        <div class="card red">
+          <div class="c-label red">🎙 Direct Speech — exact words</div>
+          <div style="font-size:.84rem;color:var(--muted);margin:.15rem 0">Quotation marks. Original tense. Original pronouns.</div>
+          <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 5px 5px 0;padding:.32rem .72rem;font-size:.93rem;line-height:1.5;margin:.1rem 0">
+            <em style="color:var(--red)">"I saw Eleanor at the bar last night."</em><br>
+            <span style="font-size:.76rem;color:var(--muted)">— James Webb, hotel porter</span>
+          </div>
+          <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 5px 5px 0;padding:.32rem .72rem;font-size:.93rem;line-height:1.5;margin:.1rem 0">
+            <em style="color:var(--red)">"I am completely innocent and my club is legal."</em><br>
+            <span style="font-size:.76rem;color:var(--muted)">— Rosa Caruso</span>
+          </div>
+        </div>
+        <div class="card" style="background:var(--s2)">
+          <div class="c-label gold">"that" — optional connector</div>
+          <div style="font-size:.84rem;color:var(--muted);line-height:1.5;margin-top:.1rem">The word <b>that</b> after the reporting verb is optional. Both forms are correct.</div>
+          <div style="display:flex;gap:.3rem;margin-top:.2rem">
+            <div class="ex-ok" style="flex:1;font-size:.82rem">She said <b>that</b> she was innocent. ✅</div>
+            <div class="ex-ok" style="flex:1;font-size:.82rem">She said she was innocent. ✅</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:.4rem">
+        <div class="card teal">
+          <div class="c-label teal">📋 Reported Speech — your words</div>
+          <div style="font-size:.84rem;color:var(--muted);margin:.15rem 0">No quotes. Tense goes back. Pronouns and time shift.</div>
+          <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 5px 5px 0;padding:.32rem .72rem;font-size:.9rem;line-height:1.6;margin:.1rem 0">
+            Webb said (that) <b style="color:var(--teal)">he</b> <b style="color:var(--teal)">had seen</b> Eleanor at the bar <b style="color:var(--teal)">the night before</b>.
+          </div>
+          <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 5px 5px 0;padding:.32rem .72rem;font-size:.9rem;line-height:1.6;margin:.1rem 0">
+            Rosa claimed (that) <b style="color:var(--teal)">she</b> <b style="color:var(--teal)">was</b> completely innocent and that <b style="color:var(--teal)">her</b> club <b style="color:var(--teal)">was</b> legal.
+          </div>
+        </div>
+        <div class="card gold">
+          <div class="c-label gold">What changes? — checklist</div>
+          <div style="font-size:.86rem;color:var(--muted);line-height:1.7;margin-top:.1rem">
+            🕰 <b style="color:var(--text)">Tense</b> — shifts one step back (the backshift)<br>
+            👤 <b style="color:var(--text)">Pronouns</b> — I → he/she &nbsp;·&nbsp; my → his/her<br>
+            📅 <b style="color:var(--text)">Time &amp; place</b> — today → that day &nbsp;·&nbsp; here → there<br>
+            🗣 <b style="color:var(--text)">Reporting verb</b> — said / told / claimed…
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="navbar">
+    <button class="btn-nav" onclick="prev()">← Back</button>
+    <div class="nav-dots" id="nd2"></div>
+    <button class="btn-nav-primary" onclick="next()">Next →</button>
+  </div>
+</div>
+
+<!-- ══ SLIDE 3 — SAID vs TOLD ══ -->
+<div class="slide" data-slide="3">
+  <div class="topbar">
+    <div class="tb-logo">🔍 The Manhattan Affair</div>
+    <div class="tb-center">Reported Speech · Part 1 · 4t ESO</div>
+    <div class="tb-right"><div class="tb-slide-name">said vs told</div><div class="tb-counter"><span>3</span> / 8</div></div>
+  </div>
+  <div class="slide-content">
+    <div class="slide-kicker gold">Step 1</div>
+    <div class="slide-title">say / said &nbsp;<span class="gold">vs</span>&nbsp; tell / told</div>
+    <div class="slide-sub">These are the two main reporting verbs. They have one key difference: <b>tell/told always needs a person (object)</b> directly after it. Say/said does not.</div>
+    <div class="grid2" style="margin-top:.35rem">
+      <div style="display:flex;flex-direction:column;gap:.4rem">
+        <div class="card red">
+          <div class="c-label red">SAY / SAID — no object</div>
+          <div class="formula red" style="font-size:.86rem;margin:.2rem 0"><span class="kw red">say / said</span> + (that) + clause</div>
+          <div class="ex-ok" style="font-size:.86rem">✅ She <b>said</b> she was innocent.</div>
+          <div class="ex-ok" style="font-size:.86rem">✅ He <b>said</b> (that) he hadn't seen her.</div>
+          <div class="ex-err" style="font-size:.86rem">❌ She <b>said me</b> she was innocent.</div>
+          <div class="ex-note" style="margin-top:.25rem;font-size:.84rem">To mention the listener, use <b>"to"</b>:<br><em>She said <b>to the detective</b> that she was innocent.</em></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:.4rem">
+        <div class="card teal">
+          <div class="c-label teal">TELL / TOLD — always needs a person</div>
+          <div class="formula teal" style="font-size:.86rem;margin:.2rem 0"><span class="kw teal">tell / told</span> + <em style="color:var(--teal)">person</em> + (that) + clause</div>
+          <div class="ex-ok" style="font-size:.86rem">✅ Webb <b>told Morrison</b> he was alone.</div>
+          <div class="ex-ok" style="font-size:.86rem">✅ She <b>told him</b> (that) she knew nothing.</div>
+          <div class="ex-err" style="font-size:.86rem">❌ He <b>told that</b> he was innocent.</div>
+          <div class="ex-note" style="margin-top:.25rem;font-size:.84rem">Common objects: <b>me · him · her · us · them · Morrison · the detective</b></div>
+        </div>
+      </div>
+    </div>
+    <div style="background:var(--s3);border:1px solid var(--border);border-radius:var(--r);padding:.45rem .95rem;margin-top:.4rem">
+      <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:var(--gold);margin-bottom:.28rem">🔍 Case File — George Cross reports Eleanor's disappearance</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.35rem">
+        <div class="ex-ok" style="font-size:.85rem">George <b>said</b> his wife had disappeared. ✅</div>
+        <div class="ex-ok" style="font-size:.85rem">George <b>told Morrison</b> his wife had disappeared. ✅</div>
+        <div class="ex-err" style="font-size:.85rem">George <b>told that</b> his wife had disappeared. ❌</div>
+        <div class="ex-err" style="font-size:.85rem">George <b>said Morrison</b> his wife had disappeared. ❌</div>
+      </div>
+    </div>
+  </div>
+  <div class="navbar">
+    <button class="btn-nav" onclick="prev()">← Back</button>
+    <div class="nav-dots" id="nd3"></div>
+    <button class="btn-nav-primary" onclick="next()">Next →</button>
+  </div>
+</div>
+
+<!-- ══ SLIDE 4 — THE BACKSHIFT ══ -->
+<div class="slide" data-slide="4">
+  <div class="topbar">
+    <div class="tb-logo">🔍 The Manhattan Affair</div>
+    <div class="tb-center">Reported Speech · Part 1 · 4t ESO</div>
+    <div class="tb-right"><div class="tb-slide-name">The Backshift</div><div class="tb-counter"><span>4</span> / 8</div></div>
+  </div>
+  <div class="slide-content">
+    <div class="slide-kicker gold">Step 2</div>
+    <div class="slide-title">The <span class="gold">Backshift</span> — Tenses Go Back One Step</div>
+    <div class="slide-sub">When we report what someone said, each tense shifts <b>one step into the past</b>. Think of it as rewinding the recording from Room 401.</div>
+    <div class="bs-wrap" style="margin-top:.3rem">
+      <table class="bs-table">
+        <thead>
+          <tr><th>Direct Speech</th><th>→</th><th>Reported Speech</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Present Simple &nbsp;<em style="font-weight:400;font-size:.78rem;color:var(--muted)">"I work here."</em></td>
+            <td>→</td>
+            <td>Past Simple &nbsp;<em style="font-weight:400;font-size:.78rem;color:var(--muted)">He said he <b>worked</b> there.</em></td>
+          </tr>
+          <tr>
+            <td>Present Continuous &nbsp;<em style="font-weight:400;font-size:.78rem;color:var(--muted)">"She is waiting."</em></td>
+            <td>→</td>
+            <td>Past Continuous &nbsp;<em style="font-weight:400;font-size:.78rem;color:var(--muted)">He said she <b>was waiting</b>.</em></td>
+          </tr>
+          <tr>
+            <td>Past Simple &nbsp;<em style="font-weight:400;font-size:.78rem;color:var(--muted)">"I saw Eleanor."</em></td>
+            <td>→</td>
+            <td>Past Perfect &nbsp;<em style="font-weight:400;font-size:.78rem;color:var(--muted)">He said he <b>had seen</b> Eleanor.</em></td>
+          </tr>
+          <tr>
+            <td>Present Perfect &nbsp;<em style="font-weight:400;font-size:.78rem;color:var(--muted)">"I have found the note."</em></td>
+            <td>→</td>
+            <td>Past Perfect &nbsp;<em style="font-weight:400;font-size:.78rem;color:var(--muted)">She said she <b>had found</b> the note.</em></td>
+          </tr>
+          <tr>
+            <td><b>will</b> &nbsp;<em style="font-weight:400;font-size:.78rem;color:var(--muted)">"I will call you."</em></td>
+            <td>→</td>
+            <td><b>would</b> &nbsp;<em style="font-weight:400;font-size:.78rem;color:var(--muted)">He said he <b>would</b> call.</em></td>
+          </tr>
+          <tr>
+            <td><b>can</b> &nbsp;<em style="font-weight:400;font-size:.78rem;color:var(--muted)">"I can explain."</em></td>
+            <td>→</td>
+            <td><b>could</b> &nbsp;<em style="font-weight:400;font-size:.78rem;color:var(--muted)">She said she <b>could</b> explain.</em></td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="background:var(--s3);border:1px solid var(--border);border-radius:var(--r);padding:.45rem .95rem">
+        <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:var(--gold);margin-bottom:.22rem">🔍 Webb's full statement — complete backshift</div>
+        <div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:.5rem;font-size:.86rem">
+          <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 5px 5px 0;padding:.28rem .65rem;font-style:italic;line-height:1.6">"I <b>saw</b> Eleanor. She <b>is</b> with a man. I <b>will</b> say nothing."</div>
+          <div style="font-size:1.4rem;color:var(--gold);font-weight:700;text-align:center">→</div>
+          <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 5px 5px 0;padding:.28rem .65rem;line-height:1.6">Webb said he <b style="color:var(--teal)">had seen</b> Eleanor, that she <b style="color:var(--teal)">was</b> with a man, and that he <b style="color:var(--teal)">would</b> say nothing.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="navbar">
+    <button class="btn-nav" onclick="prev()">← Back</button>
+    <div class="nav-dots" id="nd4"></div>
+    <button class="btn-nav-primary" onclick="next()">Next →</button>
+  </div>
+</div>
+
+<!-- ══ SLIDE 5 — PRONOUNS & TIME ══ -->
+<div class="slide" data-slide="5">
+  <div class="topbar">
+    <div class="tb-logo">🔍 The Manhattan Affair</div>
+    <div class="tb-center">Reported Speech · Part 1 · 4t ESO</div>
+    <div class="tb-right"><div class="tb-slide-name">Pronouns &amp; Time</div><div class="tb-counter"><span>5</span> / 8</div></div>
+  </div>
+  <div class="slide-content">
+    <div class="slide-kicker gold">Step 3</div>
+    <div class="slide-title">Pronouns &amp; <span class="gold">Time Expressions</span> Also Change</div>
+    <div class="slide-sub">The backshift isn't enough. Pronouns must reflect the <b>new speaker</b>, and time/place words must reflect the <b>new moment of reporting</b>.</div>
+    <div class="grid2" style="margin-top:.35rem">
+      <div style="display:flex;flex-direction:column;gap:.4rem">
+        <div class="card red">
+          <div class="c-label red">Pronouns change — new speaker's perspective</div>
+          <table style="width:100%;border-collapse:collapse;font-size:.86rem;margin-top:.2rem">
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:.2rem .35rem;font-weight:700;color:var(--red);width:36%">I / me</td>
+              <td style="padding:.2rem 0;color:var(--gold);font-weight:700;text-align:center;width:10%">→</td>
+              <td style="padding:.2rem .35rem;color:var(--teal);font-weight:600">he / she · him / her</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:.2rem .35rem;font-weight:700;color:var(--red)">my</td>
+              <td style="padding:.2rem 0;color:var(--gold);font-weight:700;text-align:center">→</td>
+              <td style="padding:.2rem .35rem;color:var(--teal);font-weight:600">his / her</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:.2rem .35rem;font-weight:700;color:var(--red)">we / us</td>
+              <td style="padding:.2rem 0;color:var(--gold);font-weight:700;text-align:center">→</td>
+              <td style="padding:.2rem .35rem;color:var(--teal);font-weight:600">they / them</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:.2rem .35rem;font-weight:700;color:var(--red)">our</td>
+              <td style="padding:.2rem 0;color:var(--gold);font-weight:700;text-align:center">→</td>
+              <td style="padding:.2rem .35rem;color:var(--teal);font-weight:600">their</td>
+            </tr>
+            <tr>
+              <td style="padding:.2rem .35rem;font-weight:700;color:var(--red)">you</td>
+              <td style="padding:.2rem 0;color:var(--gold);font-weight:700;text-align:center">→</td>
+              <td style="padding:.2rem .35rem;color:var(--teal);font-weight:600">I / he / she / they</td>
+            </tr>
+          </table>
+        </div>
+        <div class="ex-note" style="font-size:.84rem">Rosa said: <em>"<b>My</b> club is clean."</em><br>→ Rosa said <b>her</b> club was clean.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:.4rem">
+        <div class="card gold">
+          <div class="c-label gold">Time &amp; place — new moment of reporting</div>
+          <table style="width:100%;border-collapse:collapse;font-size:.86rem;margin-top:.2rem">
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:.18rem .35rem;font-weight:700;color:var(--gold);width:36%">now</td>
+              <td style="padding:.18rem 0;color:var(--gold);font-weight:700;text-align:center;width:10%">→</td>
+              <td style="padding:.18rem .35rem;color:var(--muted)">then / at that moment</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:.18rem .35rem;font-weight:700;color:var(--gold)">today</td>
+              <td style="padding:.18rem 0;color:var(--gold);font-weight:700;text-align:center">→</td>
+              <td style="padding:.18rem .35rem;color:var(--muted)">that day</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:.18rem .35rem;font-weight:700;color:var(--gold)">yesterday</td>
+              <td style="padding:.18rem 0;color:var(--gold);font-weight:700;text-align:center">→</td>
+              <td style="padding:.18rem .35rem;color:var(--muted)">the day before</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:.18rem .35rem;font-weight:700;color:var(--gold)">tomorrow</td>
+              <td style="padding:.18rem 0;color:var(--gold);font-weight:700;text-align:center">→</td>
+              <td style="padding:.18rem .35rem;color:var(--muted)">the next day</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border)">
+              <td style="padding:.18rem .35rem;font-weight:700;color:var(--gold)">here</td>
+              <td style="padding:.18rem 0;color:var(--gold);font-weight:700;text-align:center">→</td>
+              <td style="padding:.18rem .35rem;color:var(--muted)">there</td>
+            </tr>
+            <tr>
+              <td style="padding:.18rem .35rem;font-weight:700;color:var(--gold)">this / ago</td>
+              <td style="padding:.18rem 0;color:var(--gold);font-weight:700;text-align:center">→</td>
+              <td style="padding:.18rem .35rem;color:var(--muted)">that / before</td>
+            </tr>
+          </table>
+        </div>
+        <div class="ex-note" style="font-size:.84rem">George said: <em>"<b>My</b> wife disappeared <b>yesterday</b> from <b>here</b>."</em><br>→ He said <b>his</b> wife had disappeared <b>the day before</b> from <b>there</b>.</div>
+      </div>
+    </div>
+  </div>
+  <div class="navbar">
+    <button class="btn-nav" onclick="prev()">← Back</button>
+    <div class="nav-dots" id="nd5"></div>
+    <button class="btn-nav-primary" onclick="next()">Next →</button>
+  </div>
+</div>
+
+<!-- ══ SLIDE 6 — REPORTING VERBS ══ -->
+<div class="slide" data-slide="6">
+  <div class="topbar">
+    <div class="tb-logo">🔍 The Manhattan Affair</div>
+    <div class="tb-center">Reported Speech · Part 1 · 4t ESO</div>
+    <div class="tb-right"><div class="tb-slide-name">Reporting Verbs</div><div class="tb-counter"><span>6</span> / 8</div></div>
+  </div>
+  <div class="slide-content">
+    <div class="slide-kicker gold">Step 4</div>
+    <div class="slide-title">Reporting Verbs — <span class="gold">claim, deny, admit, insist</span></div>
+    <div class="slide-sub">These four verbs let you show <b>how</b> a witness spoke, not just what they said. Each follows a specific grammatical pattern.</div>
+    <div class="grid4" style="margin-top:.35rem">
+      <div class="card gold">
+        <div class="c-label gold">CLAIM &nbsp;<span class="tag gold" style="font-size:.6rem">+ that</span></div>
+        <div style="font-size:.83rem;color:var(--muted);line-height:1.4;margin:.15rem 0">Say something is true <em>without proof</em></div>
+        <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.85rem;font-style:italic;margin:.1rem 0"><em style="color:var(--red)">"I have never met Eleanor Cross."</em></div>
+        <div style="font-size:.8rem;color:var(--muted);text-align:center;margin:.08rem 0">↓</div>
+        <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.85rem">Rosa <b>claimed</b> (that) she had never met Eleanor.</div>
+      </div>
+      <div class="card red">
+        <div class="c-label red">DENY &nbsp;<span class="tag red" style="font-size:.6rem">+ -ing</span></div>
+        <div style="font-size:.83rem;color:var(--muted);line-height:1.4;margin:.15rem 0">Say something is <em>not true</em> — always with -ing</div>
+        <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.85rem;font-style:italic;margin:.1rem 0"><em style="color:var(--red)">"I never took the money!"</em></div>
+        <div style="font-size:.8rem;color:var(--muted);text-align:center;margin:.08rem 0">↓</div>
+        <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.85rem">Webb <b>denied</b> <b>taking</b> the money.</div>
+      </div>
+      <div class="card teal">
+        <div class="c-label teal">ADMIT &nbsp;<span class="tag teal" style="font-size:.6rem">+ -ing</span></div>
+        <div style="font-size:.83rem;color:var(--muted);line-height:1.4;margin:.15rem 0"><em>Confess</em> something you did — always with -ing</div>
+        <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.85rem;font-style:italic;margin:.1rem 0"><em style="color:var(--red)">"Yes, I lied to the police."</em></div>
+        <div style="font-size:.8rem;color:var(--muted);text-align:center;margin:.08rem 0">↓</div>
+        <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.85rem">George <b>admitted</b> <b>lying</b> to the police.</div>
+      </div>
+      <div class="card purple">
+        <div class="c-label purple">INSIST &nbsp;<span class="tag purple" style="font-size:.6rem">+ that</span></div>
+        <div style="font-size:.83rem;color:var(--muted);line-height:1.4;margin:.15rem 0">Say <em>forcefully</em>, repeat with conviction</div>
+        <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.85rem;font-style:italic;margin:.1rem 0"><em style="color:var(--red)">"I know nothing about the ransom!"</em></div>
+        <div style="font-size:.8rem;color:var(--muted);text-align:center;margin:.08rem 0">↓</div>
+        <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.85rem">Rosa <b>insisted</b> (that) she knew nothing about the ransom.</div>
+      </div>
+    </div>
+    <div style="background:var(--s3);border:1px solid var(--border);border-radius:var(--r);padding:.4rem .95rem;margin-top:.38rem;display:flex;gap:1.5rem;align-items:center">
+      <div style="font-size:.68rem;text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:var(--gold);white-space:nowrap">⚠️ Pattern</div>
+      <div style="font-size:.86rem;color:var(--muted)"><span class="tag gold">claim / insist</span> + <b>(that)</b> + subject + verb (full clause) &nbsp;&nbsp; <span class="tag teal">deny / admit</span> + <b>verb-ing</b> — never use "that" + clause with these two</div>
+    </div>
+  </div>
+  <div class="navbar">
+    <button class="btn-nav" onclick="prev()">← Back</button>
+    <div class="nav-dots" id="nd6"></div>
+    <button class="btn-nav-primary" onclick="next()">Next →</button>
+  </div>
+</div>
+
+<!-- ══ SLIDE 7 — COMMON ERRORS ══ -->
+<div class="slide" id="s7" data-slide="7">
+  <div class="topbar">
+    <div class="tb-logo">🔍 The Manhattan Affair</div>
+    <div class="tb-center">Reported Speech · Part 1 · 4t ESO</div>
+    <div class="tb-right"><div class="tb-slide-name">Common Errors</div><div class="tb-counter"><span>7</span> / 8</div></div>
+  </div>
+  <div class="slide-content">
+    <div class="slide-kicker err">Watch Out!</div>
+    <div class="slide-title">Common <span class="err">Errors</span> — Part 1</div>
+    <div class="slide-sub">These are the most frequent mistakes. Read the error and try to find the problem <b>before</b> clicking reveal.</div>
+    <div class="err-grid">
+      <div class="err-card">
+        <div class="err-num">Error 1</div>
+        <div class="err-rule">told without an object</div>
+        <div class="ex-err">❌ "George told that his wife had disappeared."</div>
+        <div class="err-reveal" id="rev1" style="display:none">
+          <div class="ex-ok">✅ George <b>said</b> (that) his wife had disappeared.</div>
+          <div class="ex-ok">✅ George <b>told Morrison</b> (that) his wife had disappeared.</div>
+          <div class="err-explain"><b>Told</b> always needs an object — a person. Without one, use <b>said</b>.</div>
+        </div>
+        <button class="btn-reveal" onclick="reveal('rev1',this)">Show correction ▾</button>
+      </div>
+      <div class="err-card">
+        <div class="err-num">Error 2</div>
+        <div class="err-rule">No backshift — tense unchanged</div>
+        <div class="ex-err">❌ "Webb said the suspect <b>is</b> in Room 401."</div>
+        <div class="err-reveal" id="rev2" style="display:none">
+          <div class="ex-ok">✅ Webb said the suspect <b>was</b> in Room 401.</div>
+          <div class="err-explain">Present Simple → <b>Past Simple</b>. Tenses must shift back when reporting past speech.</div>
+        </div>
+        <button class="btn-reveal" onclick="reveal('rev2',this)">Show correction ▾</button>
+      </div>
+      <div class="err-card">
+        <div class="err-num">Error 3</div>
+        <div class="err-rule">Pronoun not changed</div>
+        <div class="ex-err">❌ Eleanor said <b>I</b> was innocent. (reporting Eleanor's words)</div>
+        <div class="err-reveal" id="rev3" style="display:none">
+          <div class="ex-ok">✅ Eleanor said <b>she</b> was innocent.</div>
+          <div class="err-explain">Eleanor's original word "I" must change to <b>"she"</b> — we are now reporting from the outside.</div>
+        </div>
+        <button class="btn-reveal" onclick="reveal('rev3',this)">Show correction ▾</button>
+      </div>
+      <div class="err-card">
+        <div class="err-num">Error 4</div>
+        <div class="err-rule">deny with "that" instead of -ing</div>
+        <div class="ex-err">❌ "Rosa denied <b>that she knew</b> Eleanor."</div>
+        <div class="err-reveal" id="rev4" style="display:none">
+          <div class="ex-ok">✅ Rosa <b>denied knowing</b> Eleanor.</div>
+          <div class="err-explain"><b>Deny</b> and <b>admit</b> always take the <b>-ing</b> form, not a "that" clause. <em>Deny knowing / admit lying</em>.</div>
+        </div>
+        <button class="btn-reveal" onclick="reveal('rev4',this)">Show correction ▾</button>
+      </div>
+    </div>
+  </div>
+  <div class="navbar">
+    <button class="btn-nav" onclick="prev()">← Back</button>
+    <div class="nav-dots" id="nd7"></div>
+    <button class="btn-nav-primary" onclick="next()">Next →</button>
+  </div>
+</div>
+
+<!-- ══ SLIDE 8 — QUIZ ══ -->
+<div class="slide" data-slide="8">
+  <div class="topbar">
+    <div class="tb-logo">🔍 The Manhattan Affair</div>
+    <div class="tb-center">Reported Speech · Part 1 · 4t ESO</div>
+    <div class="tb-right"><div class="tb-slide-name">Quiz · Part 1</div><div class="tb-counter"><span>8</span> / 8</div></div>
+  </div>
+  <div class="slide-content">
+    <div class="slide-kicker gold">Practice — try as many times as you like!</div>
+    <div class="slide-title">Case File <span class="gold">Quiz</span> — Part 1</div>
+    <div class="quiz-wrap">
+      <div class="quiz-top">
+        <div class="qprog" id="qprog"></div>
+        <div class="qscore" id="qscore">0 / 9</div>
+      </div>
+      <div id="qcard-wrap"></div>
+      <div class="quiz-result" id="qresult">
+        <div class="qr-icon" id="qr-icon"></div>
+        <div class="qr-title" id="qr-title">Case Closed!</div>
+        <div class="qr-score" id="qr-score"></div>
+        <button class="btn-full-retry" onclick="initQuiz()">🔄 Try Again</button>
+      </div>
+    </div>
+  </div>
+  <div class="navbar">
+    <button class="btn-nav" onclick="prev()">← Back</button>
+    <div class="nav-dots" id="nd8"></div>
+    <button class="btn-nav" disabled>— End of Part 1 —</button>
+  </div>
+</div>
+
+</div>
+<script>
+const TOTAL=8; let cur=1;
+function goTo(n){
+  document.querySelectorAll('.slide').forEach(s=>{
+    const sn=+s.dataset.slide;
+    s.classList.remove('active','exit-left');
+    if(sn===n)s.classList.add('active');
+    else if(sn<n)s.classList.add('exit-left');
+  });
+  cur=n;dots();
+  if(n===7){
+    ['rev1','rev2','rev3','rev4'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+    document.querySelectorAll('#s7 .btn-reveal').forEach(btn=>{btn.textContent='Show correction ▾';btn.classList.remove('done');btn.disabled=false;});
+  }
+}
+function next(){if(cur<TOTAL)goTo(cur+1)}
+function prev(){if(cur>1)goTo(cur-1)}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown')next();
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp')prev();
+});
+function dots(){
+  document.querySelectorAll('[id^="nd"]').forEach(c=>{
+    c.innerHTML=Array.from({length:TOTAL},(_,i)=>`<div class="nav-dot ${i+1===cur?'active':''}" onclick="goTo(${i+1})"></div>`).join('');
+  });
+}
+dots();
+function reveal(id,btn){const el=document.getElementById(id);if(!el)return;el.style.display='block';btn.textContent='✓ Correction shown';btn.classList.add('done');btn.disabled=true;}
+
+const QS=[
+  {q:'Webb ___ the detective he had seen Eleanor at the bar.',b:true,
+   opts:['said','told','spoke','claimed'],ans:1,type:'said / told',
+   fb:'<b>Told</b> needs an object. "Told the detective" ✅. <b>Said</b> has no object: "said that he had seen…" ✅'},
+  {q:'Rosa ___ that she had never met Eleanor Cross.',b:true,
+   opts:['told','informed','spoke','said'],ans:3,type:'said / told',
+   fb:'"<b>Said</b> that…" ✅ — no object after said. "Told that…" ❌ — told always needs a person first: "told him that…"'},
+  {q:'"I work at the Astoria every night." → Webb said he ___ at the Astoria every night.',b:true,
+   opts:['works','worked','had worked','will work'],ans:1,type:'Backshift',
+   fb:'<b>Present Simple → Past Simple.</b> "I work" → "he <b>worked</b>". One step into the past.'},
+  {q:'"I saw Eleanor at 22:00." → He claimed he ___ Eleanor at 22:00.',b:true,
+   opts:['saw','has seen','had seen','would see'],ans:2,type:'Backshift',
+   fb:'<b>Past Simple → Past Perfect.</b> "I saw" → "he <b>had seen</b>". The past goes back one more step.'},
+  {q:'"I will contact George tonight." → She said she ___ contact him that night.',b:true,
+   opts:['will','would','could','should'],ans:1,type:'Backshift',
+   fb:'<b>will → would.</b> Modal verbs also shift back. Note: "tonight" also changed to "that night".'},
+  {q:'"My wife disappeared today." → George said his wife had disappeared ___.',b:true,
+   opts:['today','yesterday','the day before','that day'],ans:3,type:'Time Expressions',
+   fb:'"Today" → <b>"that day"</b>. The speaker\'s "today" is no longer today when someone else reports it later.'},
+  {q:'Rosa said: "My club has nothing to do with this." → Rosa said ___ club had nothing to do with it.',b:true,
+   opts:['my','her','their','its'],ans:1,type:'Pronouns',
+   fb:'Rosa\'s <b>"my"</b> → <b>"her"</b>. Pronouns shift to reflect the new speaker\'s perspective.'},
+  {q:'Rosa ___ knowing Eleanor Cross.',b:true,
+   opts:['denied','said','insisted','admitted'],ans:0,type:'Reporting Verbs',
+   fb:'<b>Deny + -ing</b>: "denied knowing" ✅. Deny = say something is NOT true. Pattern: deny + verb-ing.'},
+  {q:'George ___ lying to the police.',b:true,
+   opts:['claimed','denied','insisted','admitted'],ans:3,type:'Reporting Verbs',
+   fb:'<b>Admit + -ing</b>: "admitted lying" ✅. Admit = confess something you did. Pattern: admit + verb-ing.'},
+];
+let qi=0,sc=0,answered=[];
+function initQuiz(){qi=0;sc=0;answered=new Array(QS.length).fill(false);document.getElementById('qresult').classList.remove('show');document.getElementById('qcard-wrap').style.display='';render();}
+function renderProg(){
+  document.getElementById('qprog').innerHTML=QS.map((_,i)=>`<div class="qpd ${answered[i]?'done':i===qi?'current':''}"></div>`).join('');
+  document.getElementById('qscore').textContent=sc+' / '+QS.length;
+}
+function render(){
+  renderProg();const q=QS[qi];
+  const col=q.type.includes('Verb')?'teal':q.type.includes('said')?'red':q.type.includes('Pron')?'red':q.type.includes('Time')?'gold':'gold';
+  document.getElementById('qcard-wrap').innerHTML=`<div class="qcard"><div class="qcard-hdr"><span class="qcard-num">Q ${qi+1} / ${QS.length}</span><span class="tag ${col}">${q.type}</span></div><div class="qcard-body"><div class="qcard-q">${q.b?q.q.replace('___','<span class="blank">___</span>'):q.q}</div><div class="qopts">${q.opts.map((o,i)=>`<div class="qopt" id="qo${i}" onclick="choose(${i})"><span class="ql">${'ABCD'[i]}</span><span>${o}</span></div>`).join('')}</div><div class="qfb" id="qfb"></div><div class="quiz-nav-btns"><button class="btn-qnext" id="qnxt" onclick="nextQ()">${qi<QS.length-1?'Next →':'See results →'}</button><button class="btn-retry-q" id="qret" onclick="retryQ()">↩ Try again</button></div></div></div>`;
+}
+function choose(i){
+  const q=QS[qi];if(answered[qi])return;
+  answered[qi]=true;const ok=i===q.ans;if(ok)sc++;
+  q.opts.forEach((_,j)=>{const el=document.getElementById('qo'+j);if(!el)return;el.classList.add('locked');if(j===q.ans)el.classList.add(ok?'correct':'reveal');if(j===i&&!ok)el.classList.add('wrong');});
+  const fb=document.getElementById('qfb');fb.className='qfb show '+(ok?'good':'bad');
+  fb.innerHTML=(ok?'✅ <b>Correct!</b> ':'❌ <b>Not quite.</b> ')+q.fb;
+  document.getElementById('qnxt').classList.add('show');if(!ok)document.getElementById('qret').classList.add('show');renderProg();
+}
+function nextQ(){qi++;if(qi>=QS.length)showResult();else render();}
+function retryQ(){answered[qi]=false;render();}
+function showResult(){
+  document.getElementById('qcard-wrap').style.display='none';
+  const p=Math.round(sc/QS.length*100);
+  const[icon,title]=p===100?['👑','Legendary Detective!']:p>=78?['🎖️','Chief Detective!']:p>=56?['⭐','Investigator!']:['🔎','Keep Investigating!'];
+  document.getElementById('qr-icon').textContent=icon;document.getElementById('qr-title').textContent=title;
+  document.getElementById('qr-score').innerHTML='You scored <b>'+sc+' out of '+QS.length+'</b> ('+p+'%)';
+  document.getElementById('qresult').classList.add('show');renderProg();
+}
+initQuiz();
+</script>
+</body>
+</html>
