@@ -94,10 +94,14 @@ body{color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px}
 .err-explain{font-size:.79rem;color:var(--muted);line-height:1.45;margin-top:.1rem}
 .err-explain b{color:var(--text)}
 .err-reveal{animation:revealIn .25s ease}
+.ans-reveal{animation:revealIn .25s ease}
 @keyframes revealIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 .btn-reveal{margin-top:auto;align-self:flex-start;background:var(--s2);border:1px solid var(--border2);border-radius:6px;color:var(--gold);font-size:.75rem;font-weight:700;font-family:'DM Sans',sans-serif;padding:.26rem .72rem;cursor:pointer;transition:all .15s}
 .btn-reveal:hover{background:var(--gold-bg);border-color:var(--gold)}
 .btn-reveal.done{color:var(--ok);border-color:rgba(22,163,74,.3);background:rgba(22,163,74,.07);cursor:default}
+.btn-reveal-ans{display:inline-block;margin:.18rem 0;background:var(--teal-bg);border:1px solid var(--teal-border);border-radius:6px;color:var(--teal);font-size:.74rem;font-weight:700;font-family:'DM Sans',sans-serif;padding:.22rem .65rem;cursor:pointer;transition:all .15s}
+.btn-reveal-ans:hover{background:rgba(14,107,107,.14);border-color:var(--teal)}
+.btn-reveal-ans.done{color:var(--ok);border-color:rgba(22,163,74,.3);background:rgba(22,163,74,.07);cursor:default}
 /* Quiz */
 .quiz-wrap{flex:1;display:flex;flex-direction:column;gap:.5rem;max-width:680px}
 .quiz-top{display:flex;align-items:center;gap:1rem}
@@ -313,7 +317,7 @@ body{color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px}
 </div>
 
 <!-- ══ SLIDE 4 — REPORTED QUESTIONS: YES/NO ══ -->
-<div class="slide" data-slide="4">
+<div class="slide" id="s4" data-slide="4">
   <div class="topbar">
     <div class="tb-logo">🔍 The Manhattan Affair</div>
     <div class="tb-center">Reported Speech · Part 2 · 4t ESO</div>
@@ -333,18 +337,27 @@ body{color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px}
           <div style="display:flex;flex-direction:column;gap:.5rem;margin-top:.2rem">
             <div>
               <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.26rem .65rem;font-size:.87rem;font-style:italic"><em style="color:var(--red)">"<b>Are</b> you hiding something?"</em></div>
-              <div style="font-size:.78rem;color:var(--muted);padding:.06rem .3rem">↓ asked + if + normal order + backshift</div>
-              <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.26rem .65rem;font-size:.87rem">Morrison asked Webb <b>if he was hiding</b> something.</div>
+              <button class="btn-reveal-ans" onclick="revealAns('r4a',this)">Mostra la resposta ▾</button>
+              <div id="r4a" class="ans-reveal" style="display:none">
+                <div style="font-size:.78rem;color:var(--muted);padding:.06rem .3rem">↓ asked + if + normal order + backshift</div>
+                <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.26rem .65rem;font-size:.87rem">Morrison asked Webb <b>if he was hiding</b> something.</div>
+              </div>
             </div>
             <div>
               <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.26rem .65rem;font-size:.87rem;font-style:italic"><em style="color:var(--red)">"<b>Did</b> you see Eleanor leave?"</em></div>
-              <div style="font-size:.78rem;color:var(--muted);padding:.06rem .3rem">↓ asked + if + normal order + backshift</div>
-              <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.26rem .65rem;font-size:.87rem">She asked him <b>if he had seen</b> Eleanor leave.</div>
+              <button class="btn-reveal-ans" onclick="revealAns('r4b',this)">Mostra la resposta ▾</button>
+              <div id="r4b" class="ans-reveal" style="display:none">
+                <div style="font-size:.78rem;color:var(--muted);padding:.06rem .3rem">↓ asked + if + normal order + backshift</div>
+                <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.26rem .65rem;font-size:.87rem">She asked him <b>if he had seen</b> Eleanor leave.</div>
+              </div>
             </div>
             <div>
               <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.26rem .65rem;font-size:.87rem;font-style:italic"><em style="color:var(--red)">"<b>Can</b> you explain the ransom note?"</em></div>
-              <div style="font-size:.78rem;color:var(--muted);padding:.06rem .3rem">↓ asked + whether + normal order + backshift</div>
-              <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.26rem .65rem;font-size:.87rem">Morrison asked Rosa <b>whether she could explain</b> the ransom note.</div>
+              <button class="btn-reveal-ans" onclick="revealAns('r4c',this)">Mostra la resposta ▾</button>
+              <div id="r4c" class="ans-reveal" style="display:none">
+                <div style="font-size:.78rem;color:var(--muted);padding:.06rem .3rem">↓ asked + whether + normal order + backshift</div>
+                <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.26rem .65rem;font-size:.87rem">Morrison asked Rosa <b>whether she could explain</b> the ransom note.</div>
+              </div>
             </div>
           </div>
         </div>
@@ -377,7 +390,7 @@ body{color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px}
 </div>
 
 <!-- ══ SLIDE 5 — REPORTED QUESTIONS: WH- ══ -->
-<div class="slide" data-slide="5">
+<div class="slide" id="s5" data-slide="5">
   <div class="topbar">
     <div class="tb-logo">🔍 The Manhattan Affair</div>
     <div class="tb-center">Reported Speech · Part 2 · 4t ESO</div>
@@ -397,19 +410,31 @@ body{color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px}
           <div style="display:flex;flex-direction:column;gap:.45rem;margin-top:.2rem">
             <div>
               <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.24rem .62rem;font-size:.87rem;font-style:italic"><em style="color:var(--red)">"<b>Where</b> is Eleanor now?"</em></div>
-              <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.24rem .62rem;font-size:.87rem;margin-top:.06rem">He asked <b>where Eleanor was</b>.</div>
+              <button class="btn-reveal-ans" onclick="revealAns('r5a',this)">Mostra la resposta ▾</button>
+              <div id="r5a" class="ans-reveal" style="display:none">
+                <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.24rem .62rem;font-size:.87rem;margin-top:.04rem">He asked <b>where Eleanor was</b>.</div>
+              </div>
             </div>
             <div>
               <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.24rem .62rem;font-size:.87rem;font-style:italic"><em style="color:var(--red)">"<b>Who</b> sent the ransom note?"</em></div>
-              <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.24rem .62rem;font-size:.87rem;margin-top:.06rem">Morrison asked <b>who had sent</b> the ransom note.</div>
+              <button class="btn-reveal-ans" onclick="revealAns('r5b',this)">Mostra la resposta ▾</button>
+              <div id="r5b" class="ans-reveal" style="display:none">
+                <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.24rem .62rem;font-size:.87rem;margin-top:.04rem">Morrison asked <b>who had sent</b> the ransom note.</div>
+              </div>
             </div>
             <div>
               <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.24rem .62rem;font-size:.87rem;font-style:italic"><em style="color:var(--red)">"<b>What</b> did you see at the bar?"</em></div>
-              <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.24rem .62rem;font-size:.87rem;margin-top:.06rem">She asked Webb <b>what he had seen</b> at the bar.</div>
+              <button class="btn-reveal-ans" onclick="revealAns('r5c',this)">Mostra la resposta ▾</button>
+              <div id="r5c" class="ans-reveal" style="display:none">
+                <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.24rem .62rem;font-size:.87rem;margin-top:.04rem">She asked Webb <b>what he had seen</b> at the bar.</div>
+              </div>
             </div>
             <div>
               <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.24rem .62rem;font-size:.87rem;font-style:italic"><em style="color:var(--red)">"<b>Why</b> did Eleanor go to the Velvet Room?"</em></div>
-              <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.24rem .62rem;font-size:.87rem;margin-top:.06rem">He asked <b>why Eleanor had gone</b> to the Velvet Room.</div>
+              <button class="btn-reveal-ans" onclick="revealAns('r5d',this)">Mostra la resposta ▾</button>
+              <div id="r5d" class="ans-reveal" style="display:none">
+                <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.24rem .62rem;font-size:.87rem;margin-top:.04rem">He asked <b>why Eleanor had gone</b> to the Velvet Room.</div>
+              </div>
             </div>
           </div>
         </div>
@@ -550,6 +575,14 @@ function goTo(n){
     else if(sn<n)s.classList.add('exit-left');
   });
   cur=n;dots();
+  if(n===4){
+    ['r4a','r4b','r4c'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+    document.querySelectorAll('#s4 .btn-reveal-ans').forEach(btn=>{btn.textContent='Mostra la resposta \u25be';btn.classList.remove('done');btn.disabled=false;});
+  }
+  if(n===5){
+    ['r5a','r5b','r5c','r5d'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+    document.querySelectorAll('#s5 .btn-reveal-ans').forEach(btn=>{btn.textContent='Mostra la resposta \u25be';btn.classList.remove('done');btn.disabled=false;});
+  }
   if(n===6){
     ['rev1','rev2','rev3','rev4'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
     document.querySelectorAll('#s6 .btn-reveal').forEach(btn=>{btn.textContent='Show correction ▾';btn.classList.remove('done');btn.disabled=false;});
@@ -568,6 +601,7 @@ function dots(){
 }
 dots();
 function reveal(id,btn){const el=document.getElementById(id);if(!el)return;el.style.display='block';btn.textContent='✓ Correction shown';btn.classList.add('done');btn.disabled=true;}
+function revealAns(id,btn){const el=document.getElementById(id);if(!el)return;el.style.display='block';btn.textContent='\u2713 Resposta mostrada';btn.classList.add('done');btn.disabled=true;}
 
 const QS=[
   {q:'Morrison ___ searching the hotel records immediately.',b:true,

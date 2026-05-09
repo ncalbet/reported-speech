@@ -104,10 +104,14 @@ body{color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px}
 .err-explain{font-size:.79rem;color:var(--muted);line-height:1.45;margin-top:.1rem}
 .err-explain b{color:var(--text)}
 .err-reveal{animation:revealIn .25s ease}
+.ans-reveal{animation:revealIn .25s ease}
 @keyframes revealIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 .btn-reveal{margin-top:auto;align-self:flex-start;background:var(--s2);border:1px solid var(--border2);border-radius:6px;color:var(--gold);font-size:.75rem;font-weight:700;font-family:'DM Sans',sans-serif;padding:.26rem .72rem;cursor:pointer;transition:all .15s}
 .btn-reveal:hover{background:var(--gold-bg);border-color:var(--gold)}
 .btn-reveal.done{color:var(--ok);border-color:rgba(22,163,74,.3);background:rgba(22,163,74,.07);cursor:default}
+.btn-reveal-ans{display:inline-block;margin:.18rem 0;background:var(--teal-bg);border:1px solid var(--teal-border);border-radius:6px;color:var(--teal);font-size:.74rem;font-weight:700;font-family:'DM Sans',sans-serif;padding:.22rem .65rem;cursor:pointer;transition:all .15s}
+.btn-reveal-ans:hover{background:rgba(14,107,107,.14);border-color:var(--teal)}
+.btn-reveal-ans.done{color:var(--ok);border-color:rgba(22,163,74,.3);background:rgba(22,163,74,.07);cursor:default}
 /* Quiz */
 .quiz-wrap{flex:1;display:flex;flex-direction:column;gap:.5rem;max-width:680px}
 .quiz-top{display:flex;align-items:center;gap:1rem}
@@ -456,7 +460,7 @@ body{color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px}
 </div>
 
 <!-- ══ SLIDE 6 — REPORTING VERBS ══ -->
-<div class="slide" data-slide="6">
+<div class="slide" id="s6" data-slide="6">
   <div class="topbar">
     <div class="tb-logo">🔍 The Manhattan Affair</div>
     <div class="tb-center">Reported Speech · Part 1 · 4t ESO</div>
@@ -471,29 +475,41 @@ body{color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px}
         <div class="c-label gold">CLAIM &nbsp;<span class="tag gold" style="font-size:.6rem">+ that</span></div>
         <div style="font-size:.83rem;color:var(--muted);line-height:1.4;margin:.15rem 0">Say something is true <em>without proof</em></div>
         <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.85rem;font-style:italic;margin:.1rem 0"><em style="color:var(--red)">"I have never met Eleanor Cross."</em></div>
-        <div style="font-size:.8rem;color:var(--muted);text-align:center;margin:.08rem 0">↓</div>
-        <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.85rem">Rosa <b>claimed</b> (that) she had never met Eleanor.</div>
+        <button class="btn-reveal-ans" onclick="revealAns('r6a',this)">Mostra la resposta ▾</button>
+        <div id="r6a" class="ans-reveal" style="display:none">
+          <div style="font-size:.8rem;color:var(--muted);text-align:center;margin:.08rem 0">↓</div>
+          <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.85rem">Rosa <b>claimed</b> (that) she had never met Eleanor.</div>
+        </div>
       </div>
       <div class="card red">
         <div class="c-label red">DENY &nbsp;<span class="tag red" style="font-size:.6rem">+ -ing</span></div>
         <div style="font-size:.83rem;color:var(--muted);line-height:1.4;margin:.15rem 0">Say something is <em>not true</em> — always with -ing</div>
         <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.85rem;font-style:italic;margin:.1rem 0"><em style="color:var(--red)">"I never took the money!"</em></div>
-        <div style="font-size:.8rem;color:var(--muted);text-align:center;margin:.08rem 0">↓</div>
-        <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.85rem">Webb <b>denied</b> <b>taking</b> the money.</div>
+        <button class="btn-reveal-ans" onclick="revealAns('r6b',this)">Mostra la resposta ▾</button>
+        <div id="r6b" class="ans-reveal" style="display:none">
+          <div style="font-size:.8rem;color:var(--muted);text-align:center;margin:.08rem 0">↓</div>
+          <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.85rem">Webb <b>denied</b> <b>taking</b> the money.</div>
+        </div>
       </div>
       <div class="card teal">
         <div class="c-label teal">ADMIT &nbsp;<span class="tag teal" style="font-size:.6rem">+ -ing</span></div>
         <div style="font-size:.83rem;color:var(--muted);line-height:1.4;margin:.15rem 0"><em>Confess</em> something you did — always with -ing</div>
         <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.85rem;font-style:italic;margin:.1rem 0"><em style="color:var(--red)">"Yes, I lied to the police."</em></div>
-        <div style="font-size:.8rem;color:var(--muted);text-align:center;margin:.08rem 0">↓</div>
-        <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.85rem">George <b>admitted</b> <b>lying</b> to the police.</div>
+        <button class="btn-reveal-ans" onclick="revealAns('r6c',this)">Mostra la resposta ▾</button>
+        <div id="r6c" class="ans-reveal" style="display:none">
+          <div style="font-size:.8rem;color:var(--muted);text-align:center;margin:.08rem 0">↓</div>
+          <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.85rem">George <b>admitted</b> <b>lying</b> to the police.</div>
+        </div>
       </div>
       <div class="card purple">
         <div class="c-label purple">INSIST &nbsp;<span class="tag purple" style="font-size:.6rem">+ that</span></div>
         <div style="font-size:.83rem;color:var(--muted);line-height:1.4;margin:.15rem 0">Say <em>forcefully</em>, repeat with conviction</div>
         <div style="background:#fff;border-left:3px solid var(--red);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.85rem;font-style:italic;margin:.1rem 0"><em style="color:var(--red)">"I know nothing about the ransom!"</em></div>
-        <div style="font-size:.8rem;color:var(--muted);text-align:center;margin:.08rem 0">↓</div>
-        <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.85rem">Rosa <b>insisted</b> (that) she knew nothing about the ransom.</div>
+        <button class="btn-reveal-ans" onclick="revealAns('r6d',this)">Mostra la resposta ▾</button>
+        <div id="r6d" class="ans-reveal" style="display:none">
+          <div style="font-size:.8rem;color:var(--muted);text-align:center;margin:.08rem 0">↓</div>
+          <div style="background:#fff;border-left:3px solid var(--teal);border-radius:0 4px 4px 0;padding:.26rem .6rem;font-size:.85rem">Rosa <b>insisted</b> (that) she knew nothing about the ransom.</div>
+        </div>
       </div>
     </div>
     <div style="background:var(--s3);border:1px solid var(--border);border-radius:var(--r);padding:.4rem .95rem;margin-top:.38rem;display:flex;gap:1.5rem;align-items:center">
@@ -612,6 +628,10 @@ function goTo(n){
     else if(sn<n)s.classList.add('exit-left');
   });
   cur=n;dots();
+  if(n===6){
+    ['r6a','r6b','r6c','r6d'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
+    document.querySelectorAll('#s6 .btn-reveal-ans').forEach(btn=>{btn.textContent='Mostra la resposta \u25be';btn.classList.remove('done');btn.disabled=false;});
+  }
   if(n===7){
     ['rev1','rev2','rev3','rev4'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});
     document.querySelectorAll('#s7 .btn-reveal').forEach(btn=>{btn.textContent='Show correction ▾';btn.classList.remove('done');btn.disabled=false;});
@@ -630,6 +650,7 @@ function dots(){
 }
 dots();
 function reveal(id,btn){const el=document.getElementById(id);if(!el)return;el.style.display='block';btn.textContent='✓ Correction shown';btn.classList.add('done');btn.disabled=true;}
+function revealAns(id,btn){const el=document.getElementById(id);if(!el)return;el.style.display='block';btn.textContent='\u2713 Resposta mostrada';btn.classList.add('done');btn.disabled=true;}
 
 const QS=[
   {q:'Webb ___ the detective he had seen Eleanor at the bar.',b:true,
